@@ -12,11 +12,11 @@ class LEDDevice:
         if not is_sim:
             try:
                 import neopixel
-                self._neopixel = neopixel.NeoPixel(port, length, brightness=0.1, auto_write=False)
+                self._neopixel = neopixel.NeoPixel(port, length, brightness=1.0, auto_write=False)
             except:
-                self._neopixel = sim.sim_neopixel.NeoPixel(port, length, brightness=0.1, auto_write=False)
+                self._neopixel = sim.sim_neopixel.NeoPixel(port, length, brightness=1.0, auto_write=False)
         else:
-            self._neopixel = sim.sim_neopixel.NeoPixel(port, length, brightness=0.1, auto_write=False)
+            self._neopixel = sim.sim_neopixel.NeoPixel(port, length, brightness=1.0, auto_write=False)
 
     def get_name(self):
         return self._name

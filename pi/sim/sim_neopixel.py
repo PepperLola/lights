@@ -37,4 +37,11 @@ class NeoPixel(adafruit_pixelbuf.PixelBuf):
         self.show()
 
     def _transmit(self, buffer: bytearray):
-        pass
+        s = ""
+        max_w = len(str(len(self._post_brightness_buffer) // 3))
+        for i in range(0, len(self._post_brightness_buffer), 3):
+            r = self._post_brightness_buffer[i]
+            g = self._post_brightness_buffer[i + 1]
+            b = self._post_brightness_buffer[i + 2]
+            s += "\033[48;2;%s;%s;%sm" % (r, g, b) + ("{:<" + str(max_w) + "}").format(i // 3) + "\033[0m "
+        print(s, end="\r")

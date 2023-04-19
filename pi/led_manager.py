@@ -34,3 +34,5 @@ class LEDManager:
     def update_effects(self):
         for effect in self._effects.values():
             effect.update()
+        for device in self._devices.values():
+            device.get_neopixel().show()
