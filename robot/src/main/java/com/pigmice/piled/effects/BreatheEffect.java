@@ -8,28 +8,54 @@ public class BreatheEffect extends Effect {
     private Color color;
     private double speed;
 
+    /**
+     * Breathe effect
+     * @param color color of breathing effect
+     * @param speed number of pulses per second
+     */
     public BreatheEffect(Color color, double speed) {
         super("Breathe");
         this.color = color;
         this.speed = speed;
     }
 
+    /**
+     * Get the color of the breathing effect
+     * @return the color of the breathing effect
+     * @see Color
+     */
     public Color getColor() {
         return color;
     }
 
+    /**
+     * Set the color of the breathing effect
+     * @param color the color of the breathing effect
+     */
     public void setColor(Color color) {
         this.color = color;
     }
 
+    /**
+     * Get the speed of the breathing effect in pulses per second
+     * @return speed of the breathing effect
+     */
     public double getSpeed() {
         return speed;
     }
 
+    /**
+     * Set the speed of the breathing effect in pulses per second
+     * @param speed speed of the breathing effect
+     */
     public void setSpeed(double speed) {
         this.speed = speed;
     }
 
+    /**
+     * Get the JSON representation of the effect
+     * @return JSON representation of the effect
+     */
     @Override
     public String toString() {
         return new JSONObject()

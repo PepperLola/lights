@@ -3,11 +3,10 @@ package com.pigmice.piled;
 import com.pigmice.piled.NTValues.GameStage;
 import com.pigmice.piled.effects.Effect;
 import com.pigmice.piled.led.LED;
-import com.pigmice.piled.util.NTValue;
-
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.TimedRobot;
 
 public class PiLED {
     private static final String TABLE_NAME = "PiLED";
@@ -34,8 +33,9 @@ public class PiLED {
 
     /**
      * Get the PiLED instance
-     * 
+     *
      * @return PiLED instance
+     * @see PiLED
      */
     public static PiLED getInstance() {
         if (instance == null)
@@ -45,8 +45,9 @@ public class PiLED {
 
     /**
      * Register an LED device with the PiLED controller
-     * 
-     * @param LED device
+     *
+     * @param led device
+     * @see LED
      */
     public void registerLED(LED led) {
         ledTable
@@ -57,8 +58,9 @@ public class PiLED {
     /**
      * Unregister an LED device with the PiLED controller, which will turn it off
      * and halt all updates
-     * 
-     * @param LED device
+     *
+     * @param led device
+     * @see LED
      */
     public void unregisterLED(LED led) {
         ledTable
@@ -68,9 +70,11 @@ public class PiLED {
 
     /**
      * Set the effect for an LED device
-     * 
-     * @param LED    device
-     * @param Effect effect
+     *
+     * @param led    device
+     * @param effect effect
+     * @see LED
+     * @see Effect
      */
     public void setLEDEffect(LED led, Effect effect) {
         effectsTable
@@ -79,20 +83,36 @@ public class PiLED {
     }
 
     /**
-     * 
+     * Automatically set the alliance from DriverStation
      */
     public void setAlliance() {
         ntValues.setAlliance(DriverStation.getAlliance());
     }
 
+    /**
+     * Set the game stage. Should call this in
+     * {@link edu.wpi.first.wpilibj.TimedRobot#disabledInit()},
+     * {@link TimedRobot#autonomousInit()},
+     * {@link edu.wpi.first.wpilibj.TimedRobot#teleopInit()},
+     * and {@link edu.wpi.first.wpilibj.TimedRobot#testInit()}
+     *
+     * @param stage game stage
+     */
     public void setStage(GameStage stage) {
         ntValues.setStage(stage);
     }
 
+    /**
+     * Get the NTValues instance
+     * @return NTValues instance
+     */
     public NTValues getNTValues() {
         return ntValues;
     }
 
+    /**
+     * LED type enum
+     */
     public enum LEDType {
         Strip,
         Panel

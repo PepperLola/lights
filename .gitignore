@@ -1,3 +1,7 @@
 **/__pycache__/
 python3/
 .venv/
+
+**/.run
+**/.vscode
+**/build
