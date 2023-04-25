@@ -38,6 +38,8 @@ def valueChanged(table, key, value, isNew):
     if table == LED_TABLE_NAME:
         if isNew:
             name = key
+            if led_manager.is_device_registered(name):
+                return
             data = json.loads(value)
             device = None
             if data["type"].lower() == "strip":

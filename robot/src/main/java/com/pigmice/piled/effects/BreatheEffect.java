@@ -1,5 +1,6 @@
 package com.pigmice.piled.effects;
 
+import com.pigmice.piled.util.ColorUtil;
 import org.json.JSONObject;
 
 import edu.wpi.first.wpilibj.util.Color;
@@ -60,7 +61,7 @@ public class BreatheEffect extends Effect {
     public String toString() {
         return new JSONObject()
                 .put("name", this.getName())
-                .put("color", this.getColor())
+                .put("color", ColorUtil.toInt(this.getColor()))
                 .put("speed", this.getSpeed())
                 .toString();
     }
