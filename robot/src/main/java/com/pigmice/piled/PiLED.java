@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 
 public class PiLED {
     private static final String TABLE_NAME = "PiLED";
-    private static final String LED_SUBTABLE_NAME = "LEDs";
+    private static final String LED_SUBTABLE_NAME = "led_devices";
     private static final String EFFECTS_SUBTABLE_NAME = "effects";
 
     private static PiLED instance;

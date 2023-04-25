@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.SetLEDCommand;
 import frc.robot.subsystems.Lights;
 
@@ -24,17 +25,19 @@ import frc.robot.subsystems.Lights;
  */
 public class RobotContainer {
   // Define a Lights subsystem
-  private final Lights lights = new Lights();
+  private final Lights lights;
 
   // Define a command to set the lights to a BreatheEffect with builtin WPILib
   // color and number of pulses per second
-  private final SetLEDCommand autoCommand = new SetLEDCommand(lights, new BreatheEffect(Color.kPurple, 1));
+  // private final SetLEDCommand autoCommand = new SetLEDCommand(lights, new
+  // BreatheEffect(Color.kPurple, 1));
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     configureButtonBindings();
+    lights = new Lights();
   }
 
   /**
@@ -54,6 +57,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return autoCommand;
+    return new WaitCommand(1);
   }
 }

@@ -16,6 +16,8 @@ public class Lights extends SubsystemBase {
   public Lights() {
     // creates an LEDStrip with name "strip1" and length of 10 LEDs
     this.led = new LEDStrip("strip1", 0, 10);
+    System.out.println("REGISTERING LED STRIP");
+    PiLED.getInstance().registerLED(this.led);
 
     // automatically sets the alliance from DriverStation
     PiLED.getInstance().setAlliance();
@@ -23,6 +25,7 @@ public class Lights extends SubsystemBase {
 
   @Override
   public void periodic() {
+    // System.out.println("LIGHTS PERIODIC");
     // This method will be called once per scheduler run
   }
 

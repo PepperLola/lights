@@ -50,7 +50,7 @@ public class NTValue<T> {
      * @param value value
      */
     public void setValue(T value) {
-        if (!Objects.equals(this.value, value)) {
+        if (this.table != null && !Objects.equals(this.value, value)) {
             this.table.getEntry(this.name).setValue(this.toNTValue.apply(value));
         }
         this.value = value;

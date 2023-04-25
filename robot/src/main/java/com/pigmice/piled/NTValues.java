@@ -11,13 +11,12 @@ import edu.wpi.first.networktables.NetworkTableValue;
 import edu.wpi.first.wpilibj.DriverStation;
 
 public class NTValues {
-    private NetworkTable gameInfoTable;
+    private final NetworkTable gameInfoTable = NetworkTableInstance.getDefault().getTable("GameInfo");
 
     /**
      * Creates a new NTValues object.
      */
     public NTValues() {
-        this.gameInfoTable = NetworkTableInstance.getDefault().getTable("GameInfo");
     }
 
     /**
