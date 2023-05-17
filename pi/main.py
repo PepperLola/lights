@@ -20,6 +20,8 @@ logging.basicConfig(level=logging.DEBUG)
 
 led_manager = LEDManager()
 
+led_manager.parse_led_effect(LEDStrip("test", 0, 25, is_sim=True), json.loads('{"name": "rainbow"}'))
+
 # strip = LEDStrip("text", 0, 25, is_sim=True)
 # led_manager.register_device(strip)
 #
@@ -57,7 +59,7 @@ def valueChanged(table, key, value, isNew):
             return
         device = led_manager.get_device(name)
         data = json.loads(value)
-        effect = led_manager.parse_led_effect(data)
+        effect = led_manager.parse_led_effect(device, data)
         led_manager.set_device_effect(device, effect)
             
                 

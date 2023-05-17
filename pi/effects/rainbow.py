@@ -25,3 +25,14 @@ class RainbowEffect(LEDEffect):
             self.get_device().get_neopixel()[i] = color
         self._offset += 180 * self._speed * SECONDS_PER_TICK
         self._offset %= 180
+
+def parse(device: LEDDevice, data):
+    increment = 0.01
+    speed = 0.5
+    if "increment" in data.keys():
+        increment = data["increment"]
+
+    if "speed" in data.keys():
+        speed = data["speed"]
+
+    return RainbowEffect(device, increment, speed)
