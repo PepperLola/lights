@@ -23,6 +23,12 @@ public class Lights extends SubsystemBase {
     PiLED.getInstance().setAlliance();
   }
 
+  public static void registerLED() {
+    LEDStrip testStrip = new LEDStrip("test_strip", 1, 20);
+    System.out.println("REGISTERING TEST LED STRIP");
+    PiLED.getInstance().registerLED(testStrip);
+  }
+
   @Override
   public void periodic() {
     // System.out.println("LIGHTS PERIODIC");

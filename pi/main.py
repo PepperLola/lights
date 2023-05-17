@@ -14,6 +14,7 @@ from constants import SECONDS_PER_TICK
 
 MAIN_TABLE_NAME = "PiLED"
 LED_TABLE_NAME = "led_devices"
+EFFECTS_TABLE_NAME = "led_effects"
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -34,22 +35,31 @@ def connectionListener(connected, info):
 
 def valueChanged(table, key, value, isNew):
     # if table == LED_TABLE_NAME:
-    print(table + " valueChanged: key: '%s'; value: %s; isNew: %s" % (key, value, isNew))
-    if table == LED_TABLE_NAME:
-        if isNew:
-            name = key
-            if led_manager.is_device_registered(name):
-                return
-            data = json.loads(value)
-            device = None
-            if data["type"].lower() == "strip":
-                device = LEDStrip(name, data["port"], data["length"], True)
-            elif data["type"].lower() == "panel":
-                device = LEDPanel(name, data["port"], data["length"], True)
-            if device == None:
-                return
-            led_manager.register_device(device)
-            print("Registering LED " + data["type"].lower() + " on port " + device.get_port() + " with length " + device.get_length())
+    print(table.path + " valueChanged: key: '%s'; value: %s; isNew: %s" % (key, value, isNew))
+    if table.path == f"/{MAIN_TABLE_NAME}/{LED_TABLE_NAME}":
+        name = key
+        if led_manager.is_device_registered(name):
+            return
+        data = json.loads(value)
+        device = None
+        if data["type"].lower() == "strip":
+            device = LEDStrip(name, data["port"], data["length"], True)
+        elif data["type"].lower() == "panel":
+            device = LEDPanel(name, data["port"], data["length"], True)
+        if device == None:
+            return
+        led_manager.register_device(device)
+        led_manager.set_device_effect(device, RainbowEffect(device, 0.01, 0.5))
+        print("Registering LED " + data["type"].lower() + " on port " + str(device.get_port()) + " with length " + str(device.get_length()))
+    elif table.path == f"/{MAIN_TABLE_NAME}/${LED_TABLE_NAME}":
+        name = key
+        if not led_manager.is_device_registered(name):
+            return
+        device = led_manager.get_device(name)
+        data = json.loads(value)
+        effect = led_manager.parse_led_effect(data)
+        led_manager.set_device_effect(device, effect)
+            
                 
     # if isNew:
     #     led_manager.register_device(LEDStrip(key, 0, 0))
@@ -57,9 +67,10 @@ def valueChanged(table, key, value, isNew):
 
 NetworkTables.addConnectionListener(connectionListener, immediateNotify=True)
 
-sd = NetworkTables.getTable(LED_TABLE_NAME)
-sd.addEntryListener(valueChanged)
-sd.addSubTableListener(valueChanged)
+main_table = NetworkTables.getTable(MAIN_TABLE_NAME)
+lights_table = main_table.getSubTable(LED_TABLE_NAME)
+lights_table.addEntryListener(valueChanged)
+lights_table.addSubTableListener(valueChanged)
 
 
 if __name__ == "__main__":

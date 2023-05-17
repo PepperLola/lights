@@ -8,9 +8,6 @@ all_effects: dict = {}
 for name, module in inspect.getmembers(effects, inspect.ismodule):
     all_effects[name] = module
 
-print(all_effects)
-print(effects)
-
 class LEDManager:
     _devices: dict = {}
     _effects: dict = {}
@@ -37,8 +34,21 @@ class LEDManager:
         self._effects[device.get_name()] = effect
         effect.start()
 
+    def get_device_effects(self):
+        return self._effects
+
+    def get_device_effect(self, device: LEDDevice):
+        return self._effects[device.get_name()]
+
     def update_effects(self):
         for effect in self._effects.values():
             effect.update()
         for device in self._devices.values():
             device.get_neopixel().show()
+
+    def parse_led_effect(self, data):
+        effect_name = data['name']
+        if not effect_name in all_effects.keys():
+            return None
+        return all_effects[effect_name].parse(data)
+        
