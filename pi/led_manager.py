@@ -48,15 +48,12 @@ class LEDManager:
 
     def parse_led_effect(self, device: LEDDevice, data):
         effect_name = data['name']
-        print(effect_name, all_effects)
         if not effect_name in all_effects.keys():
             return None
         module = all_effects[effect_name]
-        parse_funcs = inspect.getmembers(module, lambda m: "parse" in str(m) and inspect.isfunction(m))
+        parse_funcs = inspect.getmembers(module, lambda m: inspect.isfunction(m) and "parse" in m.__name__)
         if len(parse_funcs) == 0:
-            raise Exception(f"Module {module} has no parse function defined! Cannot create {effect_name} effect.")
+            raise Exception(f"Module {module.__name__} has no parse function defined! Cannot create {effect_name} effect.")
         parse_func = parse_funcs[0][1]
-        print(parse_func, dir(parse_func))
-        print(parse_func(device, data))
-        return module
+        return parse_func(device, data)
         

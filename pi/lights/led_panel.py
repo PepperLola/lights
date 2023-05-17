@@ -6,10 +6,10 @@ class LEDPanel(LEDDevice):
     _height: int = 0
     _buffer: PixelFramebuffer
     def __init__(self, name, port, width, height, is_sim=False):
-        super().__init__(name, port, height * width, is_sim=is_sim)
+        super().__init__(name, port, height * width, is_sim=is_sim, is_panel=True, width=width)
         self._width = width
         self._height = height
-        self._buffer = PixelFramebuffer(super().get_device(), width, height)
+        self._buffer = PixelFramebuffer(super().get_neopixel(), width, height)
 
     def get_buffer(self):
         return self._buffer
