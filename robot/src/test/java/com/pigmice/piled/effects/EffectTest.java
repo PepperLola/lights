@@ -4,25 +4,41 @@ import edu.wpi.first.wpilibj.util.Color;
 import org.json.JSONObject;
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.Assert.assertEquals;
 
 public class EffectTest {
     @Test
     public void toStringTest() {
         BreatheEffect breatheEffect = new BreatheEffect(Color.kPurple, 1);
-        JSONObject stripJson = new JSONObject(breatheEffect.toString());
-        assertEquals(stripJson.getString("name"), "Breathe");
-        assertEquals(stripJson.getInt("color"), 8388736);
-        assertEquals(stripJson.getInt("speed"), 1);
+        JSONObject effectJson = new JSONObject(breatheEffect.toString());
+        assertEquals(effectJson.getString("name"), "Breathe");
+        assertEquals(effectJson.getInt("color"), 8388736);
+        assertEquals(effectJson.getInt("speed"), 1);
 
         SolidEffect solidEffect = new SolidEffect(Color.kPurple);
-        stripJson = new JSONObject(solidEffect.toString());
-        assertEquals(stripJson.getString("name"), "Solid");
-        assertEquals(stripJson.getInt("color"), 8388736);
+        effectJson = new JSONObject(solidEffect.toString());
+        assertEquals(effectJson.getString("name"), "Solid");
+        assertEquals(effectJson.getInt("color"), 8388736);
 
         RainbowEffect rainbowEffect = new RainbowEffect(1);
-        stripJson = new JSONObject(rainbowEffect.toString());
-        assertEquals(stripJson.getString("name"), "Rainbow");
-        assertEquals(stripJson.getInt("speed"), 1);
+        effectJson = new JSONObject(rainbowEffect.toString());
+        assertEquals(effectJson.getString("name"), "Rainbow");
+        assertEquals(effectJson.getInt("speed"), 1);
+
+        Map<String, Object> props = new HashMap<>();
+        props.put("step", 1);
+        props.put("speed", 0.0025);
+        props.put("text", "TEST");
+        props.put("reverse", false);
+        CustomEffect customEffect = new CustomEffect("custom", props);
+        effectJson = new JSONObject(customEffect.toString());
+        assertEquals(effectJson.getString("name"), "custom");
+        assertEquals(effectJson.getInt("step"), 1);
+        assertEquals(effectJson.getDouble("speed"), 0.0025, 0.00001);
+        assertEquals(effectJson.getString("text"), "TEST");
+        assertEquals(effectJson.getBoolean("reverse"), false);
     }
 }
