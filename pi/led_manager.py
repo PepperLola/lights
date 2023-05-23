@@ -1,5 +1,6 @@
 from lights.led_device import LEDDevice
 from effects.led_effect import LEDEffect
+from effects.importer import import_effect
 import inspect
 import effects
 
@@ -48,12 +49,4 @@ class LEDManager:
 
     def parse_led_effect(self, device: LEDDevice, data):
         effect_name = data['name']
-        if not effect_name in all_effects.keys():
-            return None
-        module = all_effects[effect_name]
-        parse_funcs = inspect.getmembers(module, lambda m: inspect.isfunction(m) and "parse" in m.__name__)
-        if len(parse_funcs) == 0:
-            raise Exception(f"Module {module.__name__} has no parse function defined! Cannot create {effect_name} effect.")
-        parse_func = parse_funcs[0][1]
-        return parse_func(device, data)
-        
+        return import_effect(effect_name, device, data)

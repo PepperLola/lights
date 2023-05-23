@@ -1,26 +1,28 @@
 import sim.sim_neopixel
 
 class LEDDevice:
-    _name = ""
-    _port = 0
-    _length = 0
-    _is_panel = False
-    _width = 1
-    def __init__(self, name, port, length, is_sim = False, is_panel = False, width = 1):
+    _name: str = ""
+    _port: int = 0
+    _length: int = 0
+    _is_panel: bool = False
+    _width: int = 1
+    _alternating: bool
+    def __init__(self, name, port, length, is_sim = False, is_panel = False, width = 1, alternating = True):
         self._name = name
         self._port = port
         self._length = length
         self._is_panel = is_panel
         self._width = width
+        self._alternating = alternating
 
         if not is_sim:
             try:
                 import neopixel
-                self._neopixel = neopixel.NeoPixel(port, length, brightness=1.0, auto_write=False)
+                self._neopixel = neopixel.NeoPixel(port, length, brightness=1.0, auto_write=False, alternating=alternating)
             except:
-                self._neopixel = sim.sim_neopixel.NeoPixel(port, length, brightness=1.0, auto_write=False, is_panel=self._is_panel, width=self._width)
+                self._neopixel = sim.sim_neopixel.NeoPixel(port, length, brightness=1.0, auto_write=False, is_panel=self._is_panel, width=self._width, alternating=alternating)
         else:
-            self._neopixel = sim.sim_neopixel.NeoPixel(port, length, brightness=1.0, auto_write=False, is_panel=self._is_panel, width=self._width)
+            self._neopixel = sim.sim_neopixel.NeoPixel(port, length, brightness=1.0, auto_write=False, is_panel=self._is_panel, width=self._width, alternating=alternating)
 
     def get_name(self):
         return self._name

@@ -7,6 +7,7 @@ from effects.breathe import BreatheEffect
 from effects.rainbow import RainbowEffect
 from led_manager import LEDManager
 from util.color import Color
+from effects.importer import import_effect
 import logging
 import time
 import json
@@ -42,7 +43,7 @@ def valueChanged(table, key, value, isNew):
         if data["type"].lower() == "strip":
             device = LEDStrip(name, data["port"], data["length"], True)
         elif data["type"].lower() == "panel":
-            device = LEDPanel(name, data["port"], data["width"], data["height"], True)
+            device = LEDPanel(name, data["port"], data["width"], data["height"], True, alternating=data["alternating"])
         if device == None:
             return
         led_manager.register_device(device)
@@ -70,9 +71,9 @@ effects_table.addSubTableListener(valueChanged)
 
 
 if __name__ == "__main__":
-    # valueChanged(lights_table, "strip", '{"type": "panel", "port": 0, "width": 16, "height": 16}', True)
-    valueChanged(lights_table, "strip", '{"type": "strip", "port": 0, "length": 64}', True)
-    valueChanged(effects_table, "strip", '{"name": "breathe"}', True)
+    valueChanged(lights_table, "strip", '{"type": "panel", "port": 0, "width": 16, "height": 16, "alternating": true}', True)
+    # valueChanged(lights_table, "strip", '{"type": "strip", "port": 0, "length": 64}', True)
+    valueChanged(effects_table, "strip", '{"name": "text", "text": "test"}', True)
 
     while True:
         led_manager.update_effects()

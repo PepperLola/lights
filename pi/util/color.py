@@ -12,6 +12,9 @@ class Color:
     def to_hex(self):
         return "#%02x%02x%02x" % self.to_tuple()
 
+    def to_hex_int(self):
+        return self.r << 16 | self.g << 8 | self.b
+
 def hsv(h, s, v):
     color = hsv_to_rgb(h, s, v)
     return Color(int(color[0] * 255), int(color[1] * 255), int(color[2] * 255))

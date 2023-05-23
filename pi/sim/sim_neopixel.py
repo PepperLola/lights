@@ -8,10 +8,11 @@ except ImportError:
     pass
 
 class NeoPixel(adafruit_pixelbuf.PixelBuf):
-    def __init__(self, pin, n: int, *, bpp: int = 3, brightness: float = 1.0, auto_write: bool = True, pixel_order: str = "RGB", is_panel = False, width = 1):
+    def __init__(self, pin, n: int, *, bpp: int = 3, brightness: float = 1.0, auto_write: bool = True, pixel_order: str = "RGB", is_panel = False, width = 1, alternating = False):
         super().__init__(n, brightness=brightness, byteorder=pixel_order, auto_write=auto_write)
         self._is_panel = is_panel
         self._width = width
+        self._alternating = alternating
         tk_width = 800
         tk_height = 800
         self._square_w = int(tk_width / (n if not self._is_panel else self._width))
@@ -56,6 +57,8 @@ class NeoPixel(adafruit_pixelbuf.PixelBuf):
         for i in range(0, len(buffer), 3):
             start_x = self._square_w * (i // 3 if not self._is_panel else i // 3 % self._width)
             start_y = self._square_w * (0 if not self._is_panel else i // (3 * (length // self._width)))
+            if self._alternating and (start_y // self._square_w) % 2 == 1:
+                start_x = (self._width - 1) * self._square_w - start_x - 1
             self._canvas.create_rectangle((start_x, start_y), (start_x + self._square_w + 1, start_y + self._square_w + 1), fill="#%02x%02x%02x" % (buffer[i], buffer[i + 1], buffer[i + 2]))
 
         self._tk_root.update()
