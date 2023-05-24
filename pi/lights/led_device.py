@@ -17,8 +17,11 @@ class LEDDevice:
 
         if not is_sim:
             try:
+                import board
+                pins = [board.D10, board.D12, board.D18, board.D21]
                 import neopixel
-                self._neopixel = neopixel.NeoPixel(port, length, brightness=1.0, auto_write=False, alternating=alternating)
+                self._neopixel = neopixel.NeoPixel(pins[port], length, brightness=1.0, auto_write=False)
+
             except:
                 self._neopixel = sim.sim_neopixel.NeoPixel(port, length, brightness=1.0, auto_write=False, is_panel=self._is_panel, width=self._width, alternating=alternating)
         else:
