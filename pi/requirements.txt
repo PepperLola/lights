@@ -1,0 +1,6 @@
+pynetworktables
+adafruit-circuitpython-pixelbuf
+adafruit-circuitpython-pixel-framebuf
+rpi_ws281x
+adafruit-circuitpython-neopixel
+adafruit-blinka

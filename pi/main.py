@@ -41,7 +41,7 @@ def valueChanged(table, key, value, isNew):
         data = json.loads(value)
         device = None
         if data["type"].lower() == "strip":
-            device = LEDStrip(name, data["port"], data["length"], True)
+            device = LEDStrip(name, data["port"], data["length"], False)
         elif data["type"].lower() == "panel":
             device = LEDPanel(name, data["port"], data["width"], data["height"], True, alternating=data["alternating"])
         if device == None:
@@ -71,9 +71,9 @@ effects_table.addSubTableListener(valueChanged)
 
 
 if __name__ == "__main__":
-    valueChanged(lights_table, "strip", '{"type": "panel", "port": 0, "width": 16, "height": 16, "alternating": true}', True)
+    # valueChanged(lights_table, "strip", '{"type": "panel", "port": 0, "width": 16, "height": 16, "alternating": true}', True)
     # valueChanged(lights_table, "strip", '{"type": "strip", "port": 0, "length": 64}', True)
-    valueChanged(effects_table, "strip", '{"name": "text", "text": "test"}', True)
+    # valueChanged(effects_table, "strip", '{"name": "text", "text": "test"}', True)
 
     while True:
         led_manager.update_effects()

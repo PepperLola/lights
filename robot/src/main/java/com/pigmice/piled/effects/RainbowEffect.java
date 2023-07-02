@@ -10,7 +10,7 @@ public class RainbowEffect extends Effect {
      * @param speed speed of the rainbow effect
      */
     public RainbowEffect(double speed) {
-        super("Rainbow");
+        super("rainbow");
         this.speed = speed;
     }
 

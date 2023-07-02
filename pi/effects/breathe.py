@@ -1,6 +1,6 @@
 from effects.led_effect import LEDEffect
 from lights.led_device import LEDDevice
-from util.color import Color, blend, BLACK, PURPLE
+from util.color import Color, blend, BLACK, PURPLE, from_int
 from constants import SECONDS_PER_TICK
 import math
 
@@ -28,7 +28,10 @@ def parse(device: LEDDevice, data):
 
     if "color" in data.keys():
         c = data["color"]
-        color = Color(c[0], c[1], c[2])
+        if isinstance(c, int):
+            color = from_int(c)
+        else:
+            color = Color(c[0], c[1], c[2])
 
     if "speed" in data.keys():
         speed = data["speed"]

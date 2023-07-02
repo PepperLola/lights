@@ -14,18 +14,18 @@ public class EffectTest {
     public void toStringTest() {
         BreatheEffect breatheEffect = new BreatheEffect(Color.kPurple, 1);
         JSONObject effectJson = new JSONObject(breatheEffect.toString());
-        assertEquals(effectJson.getString("name"), "Breathe");
+        assertEquals(effectJson.getString("name"), "breathe");
         assertEquals(effectJson.getInt("color"), 8388736);
         assertEquals(effectJson.getInt("speed"), 1);
 
         SolidEffect solidEffect = new SolidEffect(Color.kPurple);
         effectJson = new JSONObject(solidEffect.toString());
-        assertEquals(effectJson.getString("name"), "Solid");
+        assertEquals(effectJson.getString("name"), "solid");
         assertEquals(effectJson.getInt("color"), 8388736);
 
         RainbowEffect rainbowEffect = new RainbowEffect(1);
         effectJson = new JSONObject(rainbowEffect.toString());
-        assertEquals(effectJson.getString("name"), "Rainbow");
+        assertEquals(effectJson.getString("name"), "rainbow");
         assertEquals(effectJson.getInt("speed"), 1);
 
         Map<String, Object> props = new HashMap<>();

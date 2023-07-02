@@ -1,5 +1,5 @@
 from effects.led_effect import LEDEffect
-from util.color import Color, BLACK, PURPLE
+from util.color import Color, BLACK, PURPLE, from_int
 from lights.led_device import LEDDevice
 
 class SolidEffect(LEDEffect):
@@ -16,6 +16,9 @@ def parse(device: LEDDevice, data):
     color = PURPLE
     if "color" in data.keys():
         c = data["color"]
-        color = Color(c[0], c[1], c[2])
+        if isinstance(c, int):
+            color = from_int(c)
+        else:
+            color = Color(c[0], c[1], c[2])
 
     return SolidEffect(device, color)

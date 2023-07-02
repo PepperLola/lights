@@ -5,18 +5,14 @@
 package frc.robot;
 
 import com.pigmice.piled.PiLED;
-import com.pigmice.piled.effects.BreatheEffect;
-import com.pigmice.piled.led.LED;
 import com.pigmice.piled.led.LEDStrip;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.commands.SetLEDCommand;
 import frc.robot.subsystems.Lights;
 
 /**

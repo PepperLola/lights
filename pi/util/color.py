@@ -15,6 +15,12 @@ class Color:
     def to_hex_int(self):
         return self.r << 16 | self.g << 8 | self.b
 
+def from_int(c):
+    b = c & 255
+    g = (c >> 8) & 255
+    r = (c >> 16) & 255
+    return Color(r, g, b)
+
 def hsv(h, s, v):
     color = hsv_to_rgb(h, s, v)
     return Color(int(color[0] * 255), int(color[1] * 255), int(color[2] * 255))

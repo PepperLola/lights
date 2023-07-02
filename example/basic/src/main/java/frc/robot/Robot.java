@@ -78,8 +78,6 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
-
-    Lights.registerLED();
   }
 
   /** This function is called periodically during autonomous. */

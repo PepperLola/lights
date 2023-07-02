@@ -15,7 +15,7 @@ public class BreatheEffect extends Effect {
      * @param speed number of pulses per second
      */
     public BreatheEffect(Color color, double speed) {
-        super("Breathe");
+        super("breathe");
         this.color = color;
         this.speed = speed;
     }

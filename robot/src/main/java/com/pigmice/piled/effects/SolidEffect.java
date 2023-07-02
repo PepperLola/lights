@@ -12,7 +12,7 @@ public class SolidEffect extends Effect {
      * @param color color of solid effect
      */
     public SolidEffect(Color color) {
-        super("Solid");
+        super("solid");
         this.color = color;
     }
 
