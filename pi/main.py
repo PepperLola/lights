@@ -30,6 +30,8 @@ ip = "10.27.33.2"
 NetworkTables.initialize(server=ip)
 
 def connectionListener(connected, info):
+    if not connected:
+        led_manager.unregister_all_devices()
     print(info, "; Connected=%s" % connected)
 
 def valueChanged(table, key, value, isNew):

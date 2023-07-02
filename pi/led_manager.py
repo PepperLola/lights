@@ -22,6 +22,11 @@ class LEDManager:
     def unregister_device(self, device: LEDDevice):
         del self._devices[device.get_name()]
 
+    def unregister_all_devices(self):
+        devices = list(self._devices.values())
+        for device in devices:
+            self.unregister_device(device)
+
     def is_device_registered(self, device_name: str):
         return device_name in self._devices.keys()
 
