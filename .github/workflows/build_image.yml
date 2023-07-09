@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Clone lights-pi-gen
         run: |
-          sudo apt-get install -y quilt qemu-user-static debootstrap zip libarchive-tools qemu-tools git curl grep
+          sudo apt-get install -y quilt qemu-user-static debootstrap zip libarchive-tools git curl grep
           git clone https://github.com/PepperLola/lights-pi-gen.git
           cd lights-pi-gen
       - name: Build disk image
