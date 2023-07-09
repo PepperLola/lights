@@ -18,9 +18,6 @@ jobs:
           repository: PepperLola/lights-pi-gen
       - name: Build disk image
         run: |
-          ls
-          pwd
-          cd lights-pi-gen
           ./build.sh
       - uses: actions/upload-artifact@v1
         with:
