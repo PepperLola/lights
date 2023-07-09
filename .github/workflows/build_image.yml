@@ -18,17 +18,17 @@ jobs:
         run: sudo apt-get install -y quilt qemu-user-static debootstrap zip libarchive-tools git curl grep
       - name: Setup config
         run: |
-          echo "export IMG_NAME=lights-raspian" > config
-          echo "export RELEASE=buster" > config
-          echo "export DEPLOY_ZIP=1" > config
-          echo "export LOCALE_DEFAULT=en_US.UTF-8" > config
-          echo "export TARGET_HOSTNAME=piled" > config
-          echo "export KEYBOARD_KEYMAP=us" > config
-          echo "export KEYBOARD_LAYOUT='English (US)'" > config
-          echo "export TIMEZONE_DEFAULT=America/New_York" > config
-          echo "export FIRST_USER_NAME=pi" > config
-          echo "export ENABLE_SSH=1" > config
-          echo "export DISABLE_FIRST_BOOT_USER_RENAME=1" > config
+          export IMG_NAME=lights-raspian
+          export RELEASE=buster
+          export DEPLOY_ZIP=1
+          export LOCALE_DEFAULT=en_US.UTF-8
+          export TARGET_HOSTNAME=piled
+          export KEYBOARD_KEYMAP=us
+          export KEYBOARD_LAYOUT="English (US)"
+          export TIMEZONE_DEFAULT=America/New_York
+          export FIRST_USER_NAME=pi
+          export ENABLE_SSH=1
+          export DISABLE_FIRST_BOOT_USER_RENAME=1
       - name: Build disk image
         if: success()
         run: |
