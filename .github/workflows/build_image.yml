@@ -1,0 +1,22 @@
+name: Build Image
+
+on:
+  push: { branches: [main] }
+
+jobs:
+  buildImage:
+    name: Builds the PiLED disk image
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - name: Clone lights-pi-gen
+        run: |
+          apt-get install -y quilt qemu-user-static debootstrap zip libarchive-tools qemu-tools git curl grep
+          git clone https://github.com/PepperLola/lights-pi-gen.git
+          cd lights-pi-gen
+      - name: Build disk image
+        run: ./build.sh
+      - uses: actions/upload-artifact@v1
+        with:
+          path: export-image/*.iso
