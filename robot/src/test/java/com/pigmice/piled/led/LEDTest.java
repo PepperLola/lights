@@ -1,5 +1,6 @@
 package com.pigmice.piled.led;
 
+import com.pigmice.piled.led.LED;
 import static org.junit.Assert.assertEquals;
 
 import org.json.JSONObject;

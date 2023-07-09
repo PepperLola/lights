@@ -17,9 +17,11 @@ class LEDManager:
         pass
 
     def register_device(self, device: LEDDevice):
+        device.on_register()
         self._devices[device.get_name()] = device
 
     def unregister_device(self, device: LEDDevice):
+        self._devices[device.get_name()].on_unregister()
         del self._devices[device.get_name()]
 
     def unregister_all_devices(self):

@@ -1,12 +1,12 @@
 package com.pigmice.piled;
 
-import com.pigmice.piled.NTValues.GameStage;
 import com.pigmice.piled.effects.Effect;
 import com.pigmice.piled.led.LED;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 public class PiLED {
     private static final String TABLE_NAME = "PiLED";
@@ -98,12 +98,13 @@ public class PiLED {
      *
      * @param stage game stage
      */
-    public void setStage(GameStage stage) {
+    public void setStage(NTValues.GameStage stage) {
         ntValues.setStage(stage);
     }
 
     /**
      * Get the NTValues instance
+     * 
      * @return NTValues instance
      */
     public NTValues getNTValues() {

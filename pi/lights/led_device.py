@@ -26,6 +26,12 @@ class LEDDevice:
         else:
             self._neopixel = sim.sim_neopixel.NeoPixel(port, length, brightness=1.0, auto_write=False, is_panel=self._is_panel, width=self._width, alternating=alternating)
 
+    def on_register(self):
+        pass
+
+    def on_unregister(self):
+        self.get_neopixel().fill((0, 0, 0))
+
     def get_name(self):
         return self._name
 
