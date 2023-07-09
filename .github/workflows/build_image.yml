@@ -10,10 +10,12 @@ jobs:
     strategy:
       fail-fast: false
     steps:
+      - name: Install dependencies
+        run: sudo apt-get install -y quilt qemu-user-static debootstrap zip libarchive-tools git curl grep
       - name: Clone lights-pi-gen
-        run: |
-          sudo apt-get install -y quilt qemu-user-static debootstrap zip libarchive-tools git curl grep
-          git clone https://github.com/PepperLola/lights-pi-gen.git
+        uses: actions/checkout@v2
+        with:
+          repository: PepperLola/lights-pi-gen
       - name: Build disk image
         run: |
           ls
