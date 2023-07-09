@@ -3,6 +3,18 @@ name: Build Image
 on:
   push: { branches: [main] }
 
+env:
+  IMG_NAME: piled
+  RELEASE: buster
+  DEPLOY_ZIP: 1
+  LOCALE_DEFAULT: en_US.UTF-8
+  KEYBOARD_KEYMAP: us
+  KEYBOARD_LAYOUT: English (US)
+  TIMEZONE_DEFAULT: America/New_York
+  FIRST_USER_NAME: pi
+  ENABLE_SSH: 1
+  DISABLE_FIRST_BOOT_USER_RENAME: 1
+
 jobs:
   buildImage:
     name: Builds the PiLED disk image
@@ -16,19 +28,6 @@ jobs:
           repository: PepperLola/lights-pi-gen
       - name: Install dependencies
         run: sudo apt-get install -y quilt qemu-user-static debootstrap zip libarchive-tools git curl grep
-      - name: Setup config
-        run: |
-          export IMG_NAME=lights-raspian
-          export RELEASE=buster
-          export DEPLOY_ZIP=1
-          export LOCALE_DEFAULT=en_US.UTF-8
-          export TARGET_HOSTNAME=piled
-          export KEYBOARD_KEYMAP=us
-          export KEYBOARD_LAYOUT="English (US)"
-          export TIMEZONE_DEFAULT=America/New_York
-          export FIRST_USER_NAME=pi
-          export ENABLE_SSH=1
-          export DISABLE_FIRST_BOOT_USER_RENAME=1
       - name: Build disk image
         if: success()
         run: |
