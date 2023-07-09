@@ -29,7 +29,7 @@ jobs:
       - name: Install dependencies
         run: sudo apt-get install -y quilt qemu-user-static qemu-utils debootstrap zip libarchive-tools git curl grep
       - name: Setup config
-        run: echo "IMG_NAME=piled\nRELEASE=buster\nDEPLOY_ZIP=1\nLOCALE_DEFAULT=en_US.UTF-8\nKEYBOARD_KEYMAP=us\nKEYBOARD_LAYOUT='English (US)'\nTIMEZONE_DEFAULT=America/New_York\nFIRST_USER_NAME=pi\nENABLE_SSH=1\nDISABLE_FIRST_BOOT_USER_RENAME=1" > config
+        run: echo "IMG_NAME=piled" > config
       - name: Build disk image
         if: success()
         run: |
