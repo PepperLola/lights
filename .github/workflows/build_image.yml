@@ -14,9 +14,12 @@ jobs:
         run: |
           sudo apt-get install -y quilt qemu-user-static debootstrap zip libarchive-tools git curl grep
           git clone https://github.com/PepperLola/lights-pi-gen.git
-          cd lights-pi-gen
       - name: Build disk image
-        run: ./build.sh
+        run: |
+          ls
+          pwd
+          cd lights-pi-gen
+          ./build.sh
       - uses: actions/upload-artifact@v1
         with:
           path: export-image/*.iso
