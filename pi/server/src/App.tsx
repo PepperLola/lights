@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import DefaultLayout from "./layout/default";
-import DevicesTable from "./components/DevicesTable"
 
 function App() {
     return (

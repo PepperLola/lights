@@ -1,13 +1,8 @@
 from networktables import NetworkTables
-from lights.led_device import LEDDevice
 from lights.led_strip import LEDStrip
 from lights.led_panel import LEDPanel
-from effects.solid import SolidEffect
-from effects.breathe import BreatheEffect
-from effects.rainbow import RainbowEffect
 from led_manager import LEDManager
-from util.color import Color
-from effects.importer import import_effect
+from flask import Flask, send_from_directory
 import logging
 import time
 import json
@@ -20,6 +15,8 @@ EFFECTS_TABLE_NAME = "led_effects"
 logging.basicConfig(level=logging.DEBUG)
 
 led_manager = LEDManager()
+
+app = Flask(__name__, static_folder='server/dist')
 
 #
 # effect = RainbowEffect(strip, 0.01, 0.5)
@@ -71,11 +68,28 @@ effects_table = main_table.getSubTable(EFFECTS_TABLE_NAME)
 effects_table.addEntryListener(valueChanged)
 effects_table.addSubTableListener(valueChanged)
 
+@app.route("/")
+def serve():
+    return send_from_directory(str(app.static_folder), 'index.html')
+
+@app.route("/devices")
+def devices():
+    print(effects_table)
+    return [
+        {
+            "name": led.get_name(),
+            "port": led.get_port(),
+            "length": led.get_length(),
+            "effect": led_manager.get_device_effect(led).get_name() if led.get_name() in led_manager.get_device_effects().keys() else ""
+        } for led in led_manager.get_devices().values()
+    ]
 
 if __name__ == "__main__":
-    # valueChanged(lights_table, "strip", '{"type": "panel", "port": 0, "width": 16, "height": 16, "alternating": true}', True)
-    # valueChanged(lights_table, "strip", '{"type": "strip", "port": 0, "length": 64}', True)
-    # valueChanged(effects_table, "strip", '{"name": "text", "text": "test"}', True)
+    valueChanged(lights_table, "panel", '{"type": "panel", "port": 0, "width": 16, "height": 16, "alternating": true}', True)
+    valueChanged(lights_table, "strip", '{"type": "strip", "port": 0, "length": 64}', True)
+    valueChanged(effects_table, "panel", '{"name": "text", "text": "test"}', True)
+
+    app.run(port=2733, threaded=True)
 
     while True:
         led_manager.update_effects()

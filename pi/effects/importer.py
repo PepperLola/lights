@@ -1,10 +1,11 @@
 import importlib.util
-import sys
 
 def import_effect(name, device, data):
-    spec = importlib.util.spec_from_file_location(name, f"effects/{name}.py")
+    spec = importlib.util.spec_from_file_location(name, f"effects/{name.lower()}.py")
     if spec == None or spec.loader == None:
         return None
     effect = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(effect)
-    return effect.parse(device, data)
+    e = effect.parse(device, data)
+    e.set_name(data["name"])
+    return e
