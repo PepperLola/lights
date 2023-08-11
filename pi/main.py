@@ -1,3 +1,4 @@
+import threading
 from networktables import NetworkTables
 from lights.led_strip import LEDStrip
 from lights.led_panel import LEDPanel
@@ -93,7 +94,7 @@ if __name__ == "__main__":
     valueChanged(effects_table, "strip", '{"name": "breathe_alliance", "red_color": [ 255, 0, 0 ], "blue_color": [ 0, 0, 255 ], "speed": 0.5}', True)
     # valueChanged(effects_table, "strip", '{"name": "rainbow", "color": "(255, 0, 0)", "speed": 0.5}', True)
 
-    # app.run(port=2733, threaded=True)
+    app.run(port=2733, threaded=True)
 
     while True:
         led_manager.update_effects(game_info_table)
