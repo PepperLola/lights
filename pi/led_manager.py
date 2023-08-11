@@ -1,3 +1,4 @@
+from networktables import NetworkTable
 from lights.led_device import LEDDevice
 from effects.led_effect import LEDEffect
 from effects.importer import import_effect
@@ -48,9 +49,9 @@ class LEDManager:
     def get_device_effect(self, device: LEDDevice):
         return self._effects[device.get_name()]
 
-    def update_effects(self):
+    def update_effects(self, game_info_table: NetworkTable):
         for effect in self._effects.values():
-            effect.update()
+            effect.update(game_info_table)
         for device in self._devices.values():
             device.get_neopixel().show()
 

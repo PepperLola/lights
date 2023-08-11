@@ -1,3 +1,4 @@
+from networktables import NetworkTable
 from effects.led_effect import LEDEffect
 from util.color import Color, BLACK, hsv
 from lights.led_device import LEDDevice
@@ -18,7 +19,7 @@ class RainbowEffect(LEDEffect):
             color = hsv(hue, 1, 1).to_tuple()
             self.get_device().get_neopixel()[i] = color
 
-    def update(self):
+    def update(self, game_info_table: NetworkTable):
         for i in range(self._len):
             hue = ((self._offset + int((i / self._len) * 180)) % 180) / 180
             color = hsv(hue, 1, 1).to_tuple()

@@ -9,6 +9,7 @@ import json
 from constants import SECONDS_PER_TICK
 
 MAIN_TABLE_NAME = "PiLED"
+GAME_INFO_TABLE_NAME = "GameInfo"
 LED_TABLE_NAME = "led_devices"
 EFFECTS_TABLE_NAME = "led_effects"
 
@@ -61,6 +62,7 @@ def valueChanged(table, key, value, isNew):
 NetworkTables.addConnectionListener(connectionListener, immediateNotify=True)
 
 main_table = NetworkTables.getTable(MAIN_TABLE_NAME)
+game_info_table = main_table.getSubTable(GAME_INFO_TABLE_NAME)
 lights_table = main_table.getSubTable(LED_TABLE_NAME)
 lights_table.addEntryListener(valueChanged)
 lights_table.addSubTableListener(valueChanged)
@@ -85,13 +87,15 @@ def devices():
     ]
 
 if __name__ == "__main__":
-    valueChanged(lights_table, "panel", '{"type": "panel", "port": 0, "width": 16, "height": 16, "alternating": true}', True)
+    # valueChanged(lights_table, "panel", '{"type": "panel", "port": 0, "width": 16, "height": 16, "alternating": true}', True)
     valueChanged(lights_table, "strip", '{"type": "strip", "port": 0, "length": 64}', True)
-    valueChanged(effects_table, "panel", '{"name": "text", "text": "test"}', True)
+    # valueChanged(effects_table, "panel", '{"name": "text", "text": "test"}', True)
+    valueChanged(effects_table, "strip", '{"name": "breathe_alliance", "red_color": [ 255, 0, 0 ], "blue_color": [ 0, 0, 255 ], "speed": 0.5}', True)
+    # valueChanged(effects_table, "strip", '{"name": "rainbow", "color": "(255, 0, 0)", "speed": 0.5}', True)
 
-    app.run(port=2733, threaded=True)
+    # app.run(port=2733, threaded=True)
 
     while True:
-        led_manager.update_effects()
+        led_manager.update_effects(game_info_table)
         time.sleep(SECONDS_PER_TICK)
 

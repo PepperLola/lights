@@ -1,4 +1,5 @@
 import sim.sim_neopixel
+from adafruit_pixel_framebuf import PixelFramebuffer
 
 class LEDDevice:
     _name: str = ""
@@ -7,6 +8,7 @@ class LEDDevice:
     _is_panel: bool = False
     _width: int = 1
     _alternating: bool
+    _buffer: PixelFramebuffer
     def __init__(self, name, port, length, is_sim = False, is_panel = False, width = 1, alternating = True):
         self._name = name
         self._port = port
@@ -25,6 +27,8 @@ class LEDDevice:
                 self._neopixel = sim.sim_neopixel.NeoPixel(port, length, brightness=1.0, auto_write=False, is_panel=self._is_panel, width=self._width, alternating=alternating)
         else:
             self._neopixel = sim.sim_neopixel.NeoPixel(port, length, brightness=1.0, auto_write=False, is_panel=self._is_panel, width=self._width, alternating=alternating)
+
+        self._buffer = PixelFramebuffer(self.get_neopixel(), width, length // width, alternating=alternating)
 
     def on_register(self):
         pass
@@ -49,3 +53,6 @@ class LEDDevice:
 
     def get_width(self):
         return self._width
+
+    def get_buffer(self):
+        return self._buffer

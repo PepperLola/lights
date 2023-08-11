@@ -1,3 +1,4 @@
+from networktables import NetworkTable
 from lights.led_device import LEDDevice
 
 class LEDEffect:
@@ -22,7 +23,7 @@ class LEDEffect:
     def start(self):
         pass
 
-    def update(self):
+    def update(self, game_info_table: NetworkTable):
         pass
 
     def end(self):
