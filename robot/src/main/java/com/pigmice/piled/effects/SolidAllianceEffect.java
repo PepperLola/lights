@@ -4,7 +4,7 @@ import com.pigmice.piled.util.ColorUtil;
 import edu.wpi.first.wpilibj.util.Color;
 import org.json.JSONObject;
 
-public class SolidEffect extends Effect {
+public class SolidAllianceEffect extends Effect {
     private Color red_color;
     private Color blue_color;
 
@@ -13,7 +13,7 @@ public class SolidEffect extends Effect {
      * @param red_color red alliance color of solid effect
      * @param blue_color blue alliance color of solid effect
      */
-    public SolidEffect(Color red_color, Color blue_color) {
+    public SolidAllianceEffect(Color red_color, Color blue_color) {
         super("solid_alliance");
         this.red_color = red_color;
         this.blue_color = blue_color;
