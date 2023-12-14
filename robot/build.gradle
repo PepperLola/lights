@@ -44,4 +44,8 @@ dependencies {
     implementation 'com.google.guava:guava:31.1-jre'
 }
 
+javadoc {
+    destinationDir = file("${buildDir}/docs/javadoc")
+}
+
 apply from: 'publish.gradle'
