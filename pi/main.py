@@ -1,8 +1,10 @@
 import threading
-from networktables import NetworkTables
+from networktables import NetworkTables, NetworkTablesInstance
 from lights.led_strip import LEDStrip
 from lights.led_panel import LEDPanel
+from util.color import RED
 from led_manager import LEDManager
+from effects.not_connected import NotConnectedEffect
 from flask import Flask, send_from_directory
 import logging
 import time
@@ -91,12 +93,22 @@ if __name__ == "__main__":
     # valueChanged(lights_table, "panel", '{"type": "panel", "port": 0, "width": 16, "height": 16, "alternating": true}', True)
     valueChanged(lights_table, "strip", '{"type": "strip", "port": 0, "length": 64}', True)
     # valueChanged(effects_table, "panel", '{"name": "text", "text": "test"}', True)
-    valueChanged(effects_table, "strip", '{"name": "breathe_alliance", "red_color": [ 255, 0, 0 ], "blue_color": [ 0, 0, 255 ], "speed": 0.5}', True)
-    # valueChanged(effects_table, "strip", '{"name": "rainbow", "color": "(255, 0, 0)", "speed": 0.5}', True)
+    # valueChanged(effects_table, "strip", '{"name": "breathe_alliance", "red_color": [ 255, 0, 0 ], "blue_color": [ 0, 0, 255 ], "speed": 0.5}', True)
+    # valueChanged(effects_table, "strip", '{"name": "rainbow", "speed": 0.5}', True)
 
     # app.run(port=2733, threaded=True)
 
+    is_disconnected = False
+
     while True:
+        if NetworkTablesInstance.getDefault().isConnected():
+            is_disconnected = False
+        elif not is_disconnected:
+            # set all devices to red breathing not connected effect
+            for name in led_manager.get_devices():
+                device = led_manager.get_device(name)
+                led_manager.set_device_effect(device, NotConnectedEffect(device))
+            is_disconnected = True
         led_manager.update_effects(game_info_table)
         time.sleep(SECONDS_PER_TICK)
 
