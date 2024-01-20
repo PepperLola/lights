@@ -18,7 +18,7 @@ class BreatheEffect(LEDEffect):
     def start(self):
         self.get_device().get_neopixel().fill(BLACK.to_tuple())
 
-    def update(self, main_table: NetworkTable):
+    def update(self, game_info_table: NetworkTable):
         self._intensity += self._increment
         self._intensity %= self._2pi
         self.get_device().get_neopixel().fill(blend(BLACK, self._color, (-math.cos(self._intensity) + 1) / 2).to_tuple())

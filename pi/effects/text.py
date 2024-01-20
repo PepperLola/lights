@@ -1,3 +1,4 @@
+from networktables import NetworkTable
 from effects.led_effect import LEDEffect
 from lights.led_device import LEDDevice
 from util.color import Color, blend, BLACK, PURPLE, from_int
@@ -17,7 +18,7 @@ class TextEffect(LEDEffect):
         self.get_device().get_buffer().text(self._text, 0, 0, self._color.to_hex_int())
         self.get_device().get_buffer().display()
 
-    def update(self):
+    def update(self, game_info_table: NetworkTable):
         pass
 
 def parse(device: LEDDevice, data):
