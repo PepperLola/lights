@@ -5,10 +5,13 @@ from lights.led_panel import LEDPanel
 from util.color import RED
 from led_manager import LEDManager
 from effects.not_connected import NotConnectedEffect
-from flask import Flask, send_from_directory
+from flask import Flask, send_from_directory, request
+from werkzeug.utils import secure_filename
+from flask_cors import CORS, cross_origin
 import logging
 import time
 import json
+import os
 from constants import SECONDS_PER_TICK
 
 MAIN_TABLE_NAME = "PiLED"
@@ -21,6 +24,9 @@ logging.basicConfig(level=logging.DEBUG)
 led_manager = LEDManager()
 
 app = Flask(__name__, static_folder='server/dist')
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
+app.config['UPLOAD_FOLDER'] = os.path.join(os.path.dirname(__file__), 'custom_effects')
 
 #
 # effect = RainbowEffect(strip, 0.01, 0.5)
@@ -78,6 +84,7 @@ def serve():
     return send_from_directory(str(app.static_folder), 'index.html')
 
 @app.route("/devices")
+@cross_origin()
 def devices():
     print(effects_table)
     return [
@@ -89,15 +96,22 @@ def devices():
         } for led in led_manager.get_devices().values()
     ]
 
+@app.route("/upload-effect", methods=[ "POST" ])
+def upload_effect():
+    if request.method == "POST":
+        f = request.files['file']
+        f.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
+        return 'File uploaded successfully'
+
 if __name__ == "__main__":
-    valueChanged(lights_table, "panel", '{"type": "panel", "port": 0, "width": 16, "height": 16, "alternating": true}', True)
-    # valueChanged(lights_table, "strip", '{"type": "strip", "port": 0, "length": 64}', True)
+    # valueChanged(lights_table, "panel", '{"type": "panel", "port": 0, "width": 16, "height": 16, "alternating": true}', True)
+    valueChanged(lights_table, "strip", '{"type": "strip", "port": 0, "length": 64}', True)
     # valueChanged(effects_table, "panel", '{"name": "text", "text": "test"}', True)
     # valueChanged(effects_table, "strip", '{"name": "breathe_alliance", "red_color": [ 255, 0, 0 ], "blue_color": [ 0, 0, 255 ], "speed": 0.5}', True)
-    # valueChanged(effects_table, "strip", '{"name": "rainbow", "speed": 0.5}', True)
-    valueChanged(effects_table, "panel", '{"name": "animation"}', True)
+    valueChanged(effects_table, "strip", '{"name": "rainbow", "speed": 0.5}', True)
+    # valueChanged(effects_table, "panel", '{"name": "animation"}', True)
 
-    # app.run(port=2733, threaded=True)
+    app.run(port=2733, threaded=True)
 
     is_disconnected = False
 

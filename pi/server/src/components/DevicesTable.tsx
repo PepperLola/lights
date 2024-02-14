@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table } from 'antd';
 import type { ColumnsType, TableProps } from 'antd/es/table';
 
@@ -38,36 +38,17 @@ const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter,
 };
 
 const DevicesTable: React.FC = () => {
-    const data: DataType[] = [
-        {
-            key: '1',
-            name: 'Test Strip',
-            port: 0,
-            length: 64,
-            effect: 'Rainbow',
-        },
-        {
-            key: '2',
-            name: 'abab',
-            port: 1,
-            length: 64,
-            effect: 'Solid',
-        },
-        {
-            key: '3',
-            name: 'Test Strip 2',
-            port: 2,
-            length: 64,
-            effect: 'Text',
-        },
-        {
-            key: '4',
-            name: 'Front Left Arm Strip',
-            port: 3,
-            length: 64,
-            effect: 'Breathing',
-        },
-    ];
+    const [data, setData] = useState<DataType[]>([]);
+
+    useEffect(() => {
+        fetch("http://localhost:2733/devices")
+            .then(res => res.json())
+            .then(( data: DataType[] ) => {
+                data = data.map(d => ({...d, key: d.name }));
+                setData(data);
+            })
+            .catch(console.error);
+    }, []);
 
     return (
         <Table columns={columns} dataSource={data} onChange={onChange} />
