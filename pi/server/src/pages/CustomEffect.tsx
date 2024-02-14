@@ -5,6 +5,7 @@ const props: UploadProps = {
     action: 'http://localhost:2733/upload-effect',
     type: 'drag',
     listType: 'text',
+    accept: '.py',
     onChange(info) {
         if (info.file.status !== 'uploading') {
             console.log(info.file, info.fileList);
