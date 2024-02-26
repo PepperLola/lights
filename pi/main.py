@@ -108,10 +108,10 @@ if __name__ == "__main__":
     valueChanged(lights_table, "strip", '{"type": "strip", "port": 0, "length": 64}', True)
     # valueChanged(effects_table, "panel", '{"name": "text", "text": "test"}', True)
     # valueChanged(effects_table, "strip", '{"name": "breathe_alliance", "red_color": [ 255, 0, 0 ], "blue_color": [ 0, 0, 255 ], "speed": 0.5}', True)
-    valueChanged(effects_table, "strip", '{"name": "rainbow", "speed": 0.5}', True)
+    valueChanged(effects_table, "strip", '{"name": "fire"}', True)#, "colors": [[[ 0, 0, 0 ], 0], [[ 255, 255, 0 ], 0.5], [[ 255, 255, 255 ], 1]]}', True)
     # valueChanged(effects_table, "panel", '{"name": "animation"}', True)
 
-    app.run(port=2733, threaded=True)
+    # app.run(port=2733, threaded=True)
 
     is_disconnected = False
 

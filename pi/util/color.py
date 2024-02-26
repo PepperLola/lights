@@ -1,4 +1,5 @@
 from colorsys import hsv_to_rgb
+import itertools
 
 class Color:
     def __init__(self, r, g, b):
@@ -14,6 +15,34 @@ class Color:
 
     def to_hex_int(self):
         return self.r << 16 | self.g << 8 | self.b
+
+class ColorRamp:
+    _colors: list[tuple[Color, float]]
+
+    def __init__(self, colors: list[tuple[Color, float]]):
+        self._colors = colors
+
+    def get_color(self, t: float):
+        if t <= 0:
+            return sorted(self._colors, key=lambda c: c[1], reverse=False)[0][0]
+        elif t >= 1:
+            return sorted(self._colors, key=lambda c: c[1], reverse=True)[0][0]
+        color_from = None
+        color_to = None
+        from_pos = 0
+        to_pos = 0
+        for ((color1, pos1), (color2, pos2)) in itertools.pairwise(self._colors):
+            if pos1 <= t <= pos2:
+                color_from = color1
+                color_to = color2
+                from_pos = pos1
+                to_pos = pos2
+                break
+
+        return blend(color_from, color_to, (t - from_pos) / (to_pos - from_pos))
+
+    def get_colors(self) -> list[tuple[Color, float]]:
+        return self._colors
 
 def from_int(c):
     b = c & 255
@@ -37,6 +66,8 @@ def blend(color1, color2, t):
 BLACK = Color(0, 0, 0)
 WHITE = Color(255, 255, 255)
 RED = Color(255, 0, 0)
+ORANGE = Color(255, 165, 0)
+YELLOW = Color(255, 255, 0)
 GREEN = Color(0, 255, 0)
 BLUE = Color(0, 0, 255)
 PURPLE = Color(75, 48, 71)
