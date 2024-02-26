@@ -34,7 +34,6 @@ class AnimationEffect(LEDEffect):
             self.get_device().get_buffer().image(frame.convert("RGB"))
             self.get_device().get_buffer().display()
             self._last_update_time = current_time
-            # self.get_device().get_neopixel().fill(blend(BLACK, self._color, (-math.cos(self._intensity) + 1) / 2).to_tuple())
 
 def parse(device: LEDDevice, data):
     path = "animations/bad_apple.gif"

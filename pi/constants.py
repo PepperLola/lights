@@ -1,2 +1,2 @@
-TPS = 20
+TPS = 40
 SECONDS_PER_TICK = 1 / TPS
