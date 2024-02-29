@@ -13,6 +13,9 @@ plugins {
     id 'edu.wpi.first.wpilib.repositories.WPILibRepositoriesPlugin' version '2020.2'
 }
 
+group 'com.pigmice'
+version '2024.0.0'
+
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
@@ -28,11 +31,11 @@ sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
 
 dependencies {
-    implementation 'edu.wpi.first.ntcore:ntcore-java:2022.+'
-    implementation 'edu.wpi.first.wpilibj:wpilibj-java:2022.+'
-    implementation 'edu.wpi.first.wpimath:wpimath-java:2022.+'
+    implementation 'edu.wpi.first.ntcore:ntcore-java:2022.4.1-114-g7ad2be1'
+    implementation 'edu.wpi.first.wpilibj:wpilibj-java:2022.4.1-114-g7ad2be1'
+    implementation 'edu.wpi.first.wpimath:wpimath-java:2022.4.1-114-g7ad2be1'
 
-    implementation group: 'org.json', name: 'json', version: '20230227'
+    implementation group: 'org.json', name: 'json', version: '20231013'
 
     // Use JUnit test framework.
     testImplementation 'junit:junit:4.13.2'
@@ -41,10 +44,13 @@ dependencies {
     api 'org.apache.commons:commons-math3:3.6.1'
 
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
-    implementation 'com.google.guava:guava:31.1-jre'
+    implementation 'com.google.guava:guava:33.0.0-jre'
 }
 
 javadoc {
+    if(JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
+    }
     destinationDir = file("${buildDir}/docs/javadoc")
 }
 

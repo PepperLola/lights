@@ -9,10 +9,10 @@ import frc.robot.subsystems.Lights;
 import com.pigmice.piled.PiLED;
 import com.pigmice.piled.effects.Effect;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
-public class SetLEDCommand extends CommandBase {
+public class SetLEDCommand extends Command {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private final Lights lights;
   private final Effect effect;

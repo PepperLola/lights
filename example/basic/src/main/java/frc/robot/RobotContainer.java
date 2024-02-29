@@ -5,12 +5,11 @@
 package frc.robot;
 
 import com.pigmice.piled.PiLED;
-import com.pigmice.piled.effects.BreatheEffect;
-import com.pigmice.piled.effects.Effect;
-import com.pigmice.piled.effects.RainbowEffect;
-import com.pigmice.piled.effects.SolidEffect;
+import com.pigmice.piled.effects.*;
 import com.pigmice.piled.led.LEDStrip;
 
+import com.pigmice.piled.util.ColorRamp;
+import edu.wpi.first.math.Pair;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -22,6 +21,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.Lights;
+
+import java.util.List;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -47,13 +48,34 @@ public class RobotContainer {
    */
   public RobotContainer() {
     configureButtonBindings();
-    effectChooser = new SendableChooser<Effect>();
+
+    effectChooser = new SendableChooser<>();
     Shuffleboard.getTab("Lights")
         .add("Effect", effectChooser)
         .withPosition(3, 0);
+
     effectChooser.addOption("Solid Purple", new SolidEffect(Color.kPurple));
+    effectChooser.addOption("Solid Alliance Color", new SolidAllianceEffect(Color.kRed, Color.kBlue));
     effectChooser.addOption("Breathing Purple", new BreatheEffect(Color.kPurple, 1.0F));
     effectChooser.addOption("Rainbow", new RainbowEffect(1F));
+    effectChooser.addOption("Breathing Alliance Color", new BreatheAllianceEffect(Color.kRed, Color.kBlue, 1.0F));
+    effectChooser.addOption("Fire", new FireEffect(
+            new ColorRamp(List.of(
+                    new Pair<>(Color.kRed, 0d),
+                    new Pair<>(Color.kOrangeRed, 0.2d),
+                    new Pair<>(Color.kOrange, 0.5d),
+                    new Pair<>(Color.kYellow, 0.6d),
+                    new Pair<>(Color.kBlack, 1.0d)
+            )),
+            3,
+            0.65,
+            0.25
+    ));
+
+    // these effects should only be used with an LED panel
+    effectChooser.addOption("Animation", new AnimationEffect());
+    effectChooser.addOption("Text", new TextEffect("Text", Color.kPurple));
+    effectChooser.addOption("Text Alliance Color", new TextAllianceEffect("Text", Color.kRed, Color.kBlue));
     effectChooser.setDefaultOption("None", null);
 
     lights = new Lights(effectChooser);

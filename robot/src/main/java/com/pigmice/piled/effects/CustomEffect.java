@@ -6,21 +6,56 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CustomEffect extends Effect {
-    private Map<String, Object> props = new HashMap<>();
+    private Map<String, Object> props;
 
     public CustomEffect(String name, Map<String, Object> props) {
         super(name);
         this.props = props;
     }
 
+    /**
+     * Get the properties of the custom effect
+     * @return properties of the custom effect
+     */
+    public Map<String, Object> getProps() {
+        return this.props;
+    }
+
+    /**
+     * Get a single prop from the effect
+     * @param key key of the property
+     * @return value of the property
+     */
+    public Object getProp(String key) {
+        return this.props.get(key);
+    }
+
+    /**
+     * Overwrite properties for the custom effect
+     * @param props properties for the custom effect
+     */
+    public void setProps(Map<String, Object> props) {
+        this.props = props;
+    }
+
+    /**
+     * Add a single property to the custom effect
+     * @param key key of the property
+     * @param value value of the property
+     */
+    public void addProp(String key, Object value) {
+        this.props.put(key, value);
+    }
+
+    /**
+     * Gets the JSON representation of the custom effect
+     * @return JSON representation of the custom effect
+     */
     @Override
     public String toString() {
         JSONObject obj = new JSONObject()
                 .put("name", this.getName());
-        for (Map.Entry<String, Object> entry : this.props.entrySet()) {
-            obj.put(entry.getKey(), entry.getValue());
-        }
-
+        this.props.forEach(obj::put);
         return obj.toString();
     }
 }
