@@ -13,7 +13,7 @@ const CustomEffect = () => {
 
     const props: UploadProps = {
         name: 'file',
-        action: 'http://localhost:2733/upload-effect',
+        action: 'http://localhost:2733/custom-effects',
         type: 'drag',
         listType: 'text',
         accept: '.py',
@@ -30,7 +30,9 @@ const CustomEffect = () => {
             }
         },
         onRemove(info) {
-            console.log(info.name);
+            if (info.name) {
+                fetch(`http://localhost:2733/custom-effects?file=${info.name}`, { method: 'DELETE' });
+            }
         }
     };
 

@@ -29,6 +29,7 @@ app = Flask(__name__, static_folder='server/dist')
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.config['UPLOAD_FOLDER'] = os.path.join(os.path.dirname(__file__), 'custom_effects')
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 #
 # effect = RainbowEffect(strip, 0.01, 0.5)
@@ -96,21 +97,51 @@ def devices():
         } for led in led_manager.get_devices().values()
     ]
 
-@app.route("/upload-effect", methods=[ "POST" ])
+@app.route("/custom-effects", methods=[ "GET", "POST", "DELETE" ])
 def upload_effect():
-    if request.method == "POST":
+    if request.method == "GET":
+        current_dir = os.path.dirname(os.path.realpath(__file__))
+        root_dir = os.path.join(str(current_dir), "custom_effects")
+        return glob.glob(root_dir=root_dir, pathname="*.py"), 200
+    elif request.method == "POST":
+        if 'file' not in request.files:
+            return 'No file in the request', 400
+
         f = request.files['file']
+        if f.filename == '':
+            return 'Filename is empty', 400
+
+        if not '.' in f.filename or f.filename.rsplit('.', 1)[1] != "py":
+            return "Invalid filetype", 400
+
         contents = str(f.read())
         if re.findall(r"(class (\w|\d)+\(LEDEffect\))", contents):
-            f.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
+            try:
+                f.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
+            except Exception as e:
+                return f'Error saving file: {str(e)}', 500
             return 'File uploaded successfully', 200
         return 'Invalid effect file', 500
+    elif request.method == "DELETE":
+        if 'file' not in request.values:
+            return 'No filename in the request', 400
+        
+        filename = request.values['file']
+        if not '.' in filename or filename.rsplit('.', 1)[1] != "py":
+            return "Invalid filetype", 400
 
-@app.route("/custom-effects", methods=[ "GET" ])
-def get_custom_effects():
-    current_dir = os.path.dirname(os.path.realpath(__file__))
-    root_dir = os.path.join(str(current_dir), "custom_effects")
-    return glob.glob(root_dir=root_dir, pathname="*.py")
+        if os.path.exists(filename):
+            parent_path = os.path.abspath(os.path.dirname(filename))
+            if parent_path != app.config['UPLOAD_FOLDER']:
+                return 'Invalid filename', 400
+            os.remove(os.path.abspath(filename))
+            return 'Deleted effect', 200
+        else:
+            if re.match(r"^[A-Za-z0-9\-_]+\.py$", filename):
+                if os.path.exists(f'custom_effects/{filename}'):
+                    os.remove(os.path.abspath(f'custom_effects/{filename}'))
+                    return 'Deleted effect', 200
+            return 'Invalid filename', 400
 
 if __name__ == "__main__":
     # valueChanged(lights_table, "panel", '{"type": "panel", "port": 0, "width": 16, "height": 16, "alternating": true}', True)
