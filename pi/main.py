@@ -12,6 +12,7 @@ import logging
 import time
 import json
 import os
+import glob
 from constants import SECONDS_PER_TICK
 
 MAIN_TABLE_NAME = "PiLED"
@@ -33,7 +34,6 @@ app.config['UPLOAD_FOLDER'] = os.path.join(os.path.dirname(__file__), 'custom_ef
 # led_manager.set_device_effect(strip, effect)
 
 ip = "10.27.33.2"
-
 NetworkTables.initialize(server=ip)
 
 def connectionListener(connected, info):
@@ -86,7 +86,6 @@ def serve():
 @app.route("/devices")
 @cross_origin()
 def devices():
-    print(effects_table)
     return [
         {
             "name": led.get_name(),
@@ -103,6 +102,12 @@ def upload_effect():
         f.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
         return 'File uploaded successfully'
 
+@app.route("/custom-effects", methods=[ "GET" ])
+def get_custom_effects():
+    current_dir = os.path.dirname(os.path.realpath(__file__))
+    root_dir = os.path.join(str(current_dir), "custom_effects")
+    return glob.glob(root_dir=root_dir, pathname="*.py")
+
 if __name__ == "__main__":
     # valueChanged(lights_table, "panel", '{"type": "panel", "port": 0, "width": 16, "height": 16, "alternating": true}', True)
     valueChanged(lights_table, "strip", '{"type": "strip", "port": 0, "length": 64}', True)
@@ -112,7 +117,9 @@ if __name__ == "__main__":
     # valueChanged(effects_table, "strip", '{"name": "rainbow", "speed": 0.5}', True)
     # valueChanged(effects_table, "panel", '{"name": "animation"}', True)
 
-    # app.run(port=2733, threaded=True)
+    flask_thread = threading.Thread(target=lambda: app.run(port=2733, threaded=True, debug=True, use_reloader=False))
+    flask_thread.setDaemon(True)
+    flask_thread.start()
 
     is_disconnected = False
 
