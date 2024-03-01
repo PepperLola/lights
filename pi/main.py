@@ -13,6 +13,7 @@ import time
 import json
 import os
 import glob
+import re
 from constants import SECONDS_PER_TICK
 
 MAIN_TABLE_NAME = "PiLED"
@@ -99,8 +100,11 @@ def devices():
 def upload_effect():
     if request.method == "POST":
         f = request.files['file']
-        f.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
-        return 'File uploaded successfully'
+        contents = str(f.read())
+        if re.findall(r"(class (\w|\d)+\(LEDEffect\))", contents):
+            f.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
+            return 'File uploaded successfully', 200
+        return 'Invalid effect file', 500
 
 @app.route("/custom-effects", methods=[ "GET" ])
 def get_custom_effects():
