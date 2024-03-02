@@ -14,7 +14,7 @@ plugins {
 }
 
 group 'com.pigmice'
-version '2024.0.0'
+version '2024.0.2'
 
 repositories {
     // Use Maven Central for resolving dependencies.

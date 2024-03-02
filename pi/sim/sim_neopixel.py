@@ -13,15 +13,15 @@ class NeoPixel(adafruit_pixelbuf.PixelBuf):
         self._is_panel = is_panel
         self._width = width
         self._alternating = alternating
-        tk_width = 800
-        tk_height = 800
+        tk_width = 1200
+        tk_height = 1200
         self._square_w = int(tk_width / (n if not self._is_panel else self._width))
         if not self._is_panel:
             tk_height = self._square_w
         self._tk_root = tk.Tk()
         self._tk_root.geometry(f"{tk_width}x{tk_height}")
         self._tk_root.title("NeoPixel Sim")
-        self._canvas = tk.Canvas(self._tk_root, width=800, height=800, bg='white')
+        self._canvas = tk.Canvas(self._tk_root, width=tk_width, height=tk_height, bg='white')
         self._canvas.pack(anchor=tk.CENTER, expand=True)
         self._tk_root.update()
 
