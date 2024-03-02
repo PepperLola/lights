@@ -1,11 +1,11 @@
 __all__ = [
     'animation',
+    'blink',
+    'blink_alliance',
     'breathe',
     'breathe_alliance',
     'conway',
     'fire',
-    'flash',
-    'flash_alliance',
     'importer',
     'led_effect',
     'morse',
