@@ -5,6 +5,7 @@ __all__ = [
     'conway',
     'fire',
     'flash',
+    'flash_alliance',
     'importer',
     'led_effect',
     'not_connected',
