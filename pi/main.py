@@ -6,6 +6,7 @@ from util.color import RED
 from led_manager import LEDManager
 from effects.not_connected import NotConnectedEffect
 from flask import Flask, send_from_directory, request
+from util.morse import get_pauses, to_morse
 from werkzeug.utils import secure_filename
 from flask_cors import CORS, cross_origin
 import logging
@@ -31,7 +32,6 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 app.config['UPLOAD_FOLDER'] = os.path.join(os.path.dirname(__file__), 'custom_effects')
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
-#
 # effect = RainbowEffect(strip, 0.01, 0.5)
 # led_manager.set_device_effect(strip, effect)
 
@@ -150,12 +150,13 @@ if __name__ == "__main__":
     # valueChanged(effects_table, "strip", '{"name": "breathe_alliance", "red_color": [ 255, 0, 0 ], "blue_color": [ 0, 0, 255 ], "speed": 0.5}', True)
     # valueChanged(effects_table, "strip", '{"name": "fire"}', True)#, "colors": [[[ 0, 0, 0 ], 0], [[ 255, 255, 0 ], 0.5], [[ 255, 255, 255 ], 1]]}', True)
     # valueChanged(effects_table, "panel", '{"name": "conway"}', True)
-    valueChanged(effects_table, "panel", '{"name": "flash"}', True)
+    # valueChanged(effects_table, "panel", '{"name": "flash"}', True)
+    valueChanged(effects_table, "panel", '{"name": "morse"}', True)
     # valueChanged(effects_table, "strip", '{"name": "rainbow", "speed": 0.5}', True)
     # valueChanged(effects_table, "panel", '{"name": "animation"}', True)
 
     flask_thread = threading.Thread(target=lambda: app.run(port=2733, threaded=True, debug=True, use_reloader=False))
-    flask_thread.setDaemon(True)
+    flask_thread.daemon = True
     flask_thread.start()
 
     is_disconnected = False

@@ -8,6 +8,7 @@ __all__ = [
     'flash_alliance',
     'importer',
     'led_effect',
+    'morse',
     'not_connected',
     'rainbow',
     'solid',
