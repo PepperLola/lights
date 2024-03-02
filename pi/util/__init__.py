@@ -1,1 +1,1 @@
-__all__ = ['color']
+__all__ = ['color', 'time']
