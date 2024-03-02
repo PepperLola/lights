@@ -146,12 +146,12 @@ def upload_effect():
 if __name__ == "__main__":
     valueChanged(lights_table, "panel", '{"type": "panel", "port": 0, "width": 16, "height": 16, "alternating": true}', True)
     # valueChanged(lights_table, "strip", '{"type": "strip", "port": 0, "length": 64}', True)
-    # valueChanged(effects_table, "panel", '{"name": "text", "text": "test"}', True)
+    valueChanged(effects_table, "panel", '{"name": "text", "text": "test", "scroll_speed": 5, "x": 16, "y": 2}', True)
     # valueChanged(effects_table, "strip", '{"name": "breathe_alliance", "red_color": [ 255, 0, 0 ], "blue_color": [ 0, 0, 255 ], "speed": 0.5}', True)
     # valueChanged(effects_table, "strip", '{"name": "fire"}', True)#, "colors": [[[ 0, 0, 0 ], 0], [[ 255, 255, 0 ], 0.5], [[ 255, 255, 255 ], 1]]}', True)
     # valueChanged(effects_table, "panel", '{"name": "conway"}', True)
     # valueChanged(effects_table, "panel", '{"name": "flash"}', True)
-    valueChanged(effects_table, "panel", '{"name": "morse"}', True)
+    # valueChanged(effects_table, "panel", '{"name": "morse"}', True)
     # valueChanged(effects_table, "strip", '{"name": "rainbow", "speed": 0.5}', True)
     # valueChanged(effects_table, "panel", '{"name": "animation"}', True)
 
