@@ -1,6 +1,6 @@
 from networktables import NetworkTable
 from effects.led_effect import LEDEffect
-from lights.led_device import LEDDevice
+from lights.led_segment import LEDSegment
 from util.color import Color, blend, BLACK, RED, BLUE, from_int
 from constants import SECONDS_PER_TICK
 import math
@@ -9,15 +9,15 @@ class BreatheAllianceEffect(LEDEffect):
     _intensity: float = 0
     _2pi: float = 2 * math.pi
 
-    def __init__(self, device: LEDDevice, red_color: Color, blue_color: Color, speed: float):
-        super().__init__(device)
+    def __init__(self, segment: LEDSegment, red_color: Color, blue_color: Color, speed: float):
+        super().__init__(segment)
         self._red_color = red_color
         self._blue_color = blue_color
         self._speed = speed
         self._increment = self._2pi * (speed * SECONDS_PER_TICK)
 
     def start(self):
-        self.get_device().get_neopixel().fill(BLACK.to_tuple())
+        self.get_segment().fill(BLACK)
 
     def update(self, game_info_table: NetworkTable):
         self._intensity += self._increment
@@ -26,9 +26,9 @@ class BreatheAllianceEffect(LEDEffect):
         c = self._red_color
         if alliance == "blue":
             c = self._blue_color
-        self.get_device().get_neopixel().fill(blend(BLACK, c, (-math.cos(self._intensity) + 1) / 2).to_tuple())
+        self.get_segment().fill(blend(BLACK, c, (-math.cos(self._intensity) + 1) / 2))
 
-def parse(device: LEDDevice, data):
+def parse(segment: LEDSegment, data):
     red_color = RED 
     blue_color = BLUE
     speed = 0.5
@@ -50,4 +50,4 @@ def parse(device: LEDDevice, data):
     if "speed" in data.keys():
         speed = data["speed"]
 
-    return BreatheAllianceEffect(device, red_color, blue_color, speed)
+    return BreatheAllianceEffect(segment, red_color, blue_color, speed)

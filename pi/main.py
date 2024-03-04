@@ -1,4 +1,7 @@
 import threading
+from lights.led_panel_segment import LEDPanelSegment
+from lights.led_segment import LEDSegment
+from lights.led_strip_segment import LEDStripSegment
 from networktables import NetworkTables, NetworkTablesInstance
 from lights.led_strip import LEDStrip
 from lights.led_panel import LEDPanel
@@ -58,17 +61,33 @@ def valueChanged(table, key, value, isNew):
         if device == None:
             return
         led_manager.register_device(device)
+
+        if "segments" in data.keys():
+            for segment in data["segments"]:
+                led_segment = None
+                if isinstance(device, LEDStrip):
+                    led_segment = LEDStripSegment(segment["name"], device, segment["range"])
+                elif isinstance(device, LEDPanel):
+                    led_segment = LEDPanelSegment(segment["name"], device, segment["top_left"], segment["bottom_right"])
+
+                if led_segment is not None:
+                    led_manager.register_segment(device.get_name(), led_segment)
+        else:
+            led_manager.register_default_segment(device)
         print("Registering LED " + data["type"].lower() + " on port " + str(device.get_port()) + " with length " + str(device.get_length()))
     elif table.path == f"/{MAIN_TABLE_NAME}/{EFFECTS_TABLE_NAME}":
         name = key
-        if not led_manager.is_device_registered(name):
+        if not led_manager.is_segment_registered(name):
             return
-        device = led_manager.get_device(name)
         data = json.loads(value)
-        effect = led_manager.parse_led_effect(device, data)
+        segment = led_manager.get_segment(name)
+        print(segment)
+        if segment == None:
+            return
+        effect = led_manager.parse_led_effect(segment, data)
         if effect == None:
             return
-        led_manager.set_device_effect(device, effect)
+        led_manager.set_segment_effect(segment, effect)
             
 NetworkTables.addConnectionListener(connectionListener, immediateNotify=True)
 
@@ -92,8 +111,8 @@ def devices():
         {
             "name": led.get_name(),
             "port": led.get_port(),
-            "length": led.get_length(),
-            "effect": led_manager.get_device_effect(led).get_name() if led.get_name() in led_manager.get_device_effects().keys() else ""
+            "length": led.get_length() # TODO add segments
+            # "effect": led_manager.get_device_effect(led).get_name() if led.get_name() in led_manager.get_device_effects().keys() else ""
         } for led in led_manager.get_devices().values()
     ]
 
@@ -145,16 +164,20 @@ def upload_effect():
 
 if __name__ == "__main__":
     # valueChanged(lights_table, "panel", '{"type": "panel", "port": 0, "width": 16, "height": 16, "alternating": true}', True)
-    valueChanged(lights_table, "strip", '{"type": "strip", "port": 0, "length": 64}', True)
-    # valueChanged(effects_table, "panel", '{"name": "text", "text": "test", "scroll_speed": 5, "x": 16, "y": 2}', True)
+    valueChanged(lights_table, "panel", '{"type": "panel", "port": 0, "width": 16, "height": 16, "alternating": true, "segments": [{"name":"segment1","top_left":[0,0],"bottom_right":[8,8]},{"name":"segment2","top_left":[8,0], "bottom_right":[16,8]},{"name":"segment3","top_left":[0,8], "bottom_right":[16,16]}]}', True)
+    # valueChanged(lights_table, "strip", '{"type": "strip", "port": 0, "length": 64 }', True)
+    # valueChanged(lights_table, "strip", '{"type": "strip", "port": 0, "length": 64, "segments": [{"name":"segment1","range": [0,32]},{"name":"segment2","range":[32,64]}]}', True)
+    valueChanged(effects_table, "segment3", '{"name": "text", "text": "test", "scroll_speed": 5, "x": 0, "y": 0}', True)
     # valueChanged(effects_table, "strip", '{"name": "breathe_alliance", "red_color": [ 255, 0, 0 ], "blue_color": [ 0, 0, 255 ], "speed": 0.5}', True)
-    valueChanged(effects_table, "strip", '{"name": "cylon"}', True)
-    # valueChanged(effects_table, "strip", '{"name": "fire"}', True)#, "colors": [[[ 0, 0, 0 ], 0], [[ 255, 255, 0 ], 0.5], [[ 255, 255, 255 ], 1]]}', True)
+    # valueChanged(effects_table, "panel", '{"name": "cylon"}', True)
+    # valueChanged(effects_table, "segment4", '{"name": "cylon"}', True)
+    # valueChanged(effects_table, "segment1", '{"name": "fire"}', True)#, "colors": [[[ 0, 0, 0 ], 0], [[ 255, 255, 0 ], 0.5], [[ 255, 255, 255 ], 1]]}', True)
     # valueChanged(effects_table, "panel", '{"name": "conway"}', True)
-    # valueChanged(effects_table, "panel", '{"name": "blink"}', True)
-    # valueChanged(effects_table, "panel", '{"name": "morse"}', True)
-    # valueChanged(effects_table, "strip", '{"name": "rainbow", "speed": 0.5}', True)
-    # valueChanged(effects_table, "panel", '{"name": "animation"}', True)
+    # valueChanged(effects_table, "segment1", '{"name": "blink"}', True)
+    valueChanged(effects_table, "segment1", '{"name": "morse"}', True)
+    valueChanged(effects_table, "segment2", '{"name": "rainbow", "speed": 0.5}', True)
+    # valueChanged(effects_table, "segment3", '{"name": "rainbow", "speed": 0.5}', True)
+    # valueChanged(effects_table, "segment1", '{"name": "animation"}', True)
 
     flask_thread = threading.Thread(target=lambda: app.run(port=2733, threaded=True, debug=True, use_reloader=False))
     flask_thread.daemon = True

@@ -1,6 +1,6 @@
 from networktables import NetworkTable
 from effects.led_effect import LEDEffect
-from lights.led_device import LEDDevice
+from lights.led_segment import LEDSegment
 from util.color import Color, blend, BLACK, PURPLE, from_int
 from constants import SECONDS_PER_TICK
 import math
@@ -13,14 +13,14 @@ class BlinkEffect(LEDEffect):
     _interval: float
     _last_change: int
 
-    def __init__(self, device: LEDDevice, color: Color, interval: float):
-        super().__init__(device)
+    def __init__(self, segment: LEDSegment, color: Color, interval: float):
+        super().__init__(segment)
         self._color = color
         self._interval = interval
         self._on = False
 
     def start(self):
-        self.get_device().get_neopixel().fill(BLACK.to_tuple())
+        self.get_segment().fill(BLACK)
         self._last_change = current_time_millis()
 
     def update(self, game_info_table: NetworkTable):
@@ -29,11 +29,11 @@ class BlinkEffect(LEDEffect):
             self._last_change = current_time
             self._on = not self._on
             if self._on:
-                self.get_device().get_neopixel().fill(self._color.to_tuple())
+                self.get_segment().fill(self._color)
             else:
-                self.get_device().get_neopixel().fill(BLACK.to_tuple())
+                self.get_segment().fill(BLACK)
 
-def parse(device: LEDDevice, data):
+def parse(segment: LEDSegment, data):
     color = PURPLE
     interval = 0.5
 
@@ -47,4 +47,4 @@ def parse(device: LEDDevice, data):
     if "interval" in data.keys():
         interval = data["interval"]
 
-    return BlinkEffect(device, color, interval)
+    return BlinkEffect(segment, color, interval)

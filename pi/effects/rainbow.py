@@ -1,33 +1,33 @@
 from networktables import NetworkTable
 from effects.led_effect import LEDEffect
 from util.color import Color, BLACK, hsv
-from lights.led_device import LEDDevice
+from lights.led_segment import LEDSegment
 from constants import SECONDS_PER_TICK, TPS
 
 class RainbowEffect(LEDEffect):
     _len: int
     _offset: float = 0
-    def __init__(self, device: LEDDevice, increment: float, speed: float):
-        self._device = device
+    def __init__(self, segment: LEDSegment, increment: float, speed: float):
+        self._segment = segment
         self._increment = increment
         self._speed = speed
-        self._len = self.get_device().get_length()
+        self._len = self.get_segment().get_length()
 
     def start(self):
         for i in range(self._len):
             hue = (int((i / self._len) * 180) % 180 / 180)
-            color = hsv(hue, 1, 1).to_tuple()
-            self.get_device().get_neopixel()[i] = color
+            color = hsv(hue, 1, 1)
+            self.get_segment().set_index(i, color)
 
     def update(self, game_info_table: NetworkTable):
         for i in range(self._len):
             hue = ((self._offset + int((i / self._len) * 180)) % 180) / 180
-            color = hsv(hue, 1, 1).to_tuple()
-            self.get_device().get_neopixel()[i] = color
+            color = hsv(hue, 1, 1)
+            self.get_segment().set_index(i, color)
         self._offset += 180 * self._speed * SECONDS_PER_TICK
         self._offset %= 180
 
-def parse(device: LEDDevice, data):
+def parse(segment: LEDSegment, data):
     increment = 0.01
     speed = 0.5
     if "increment" in data.keys():
@@ -36,4 +36,4 @@ def parse(device: LEDDevice, data):
     if "speed" in data.keys():
         speed = data["speed"]
 
-    return RainbowEffect(device, increment, speed)
+    return RainbowEffect(segment, increment, speed)

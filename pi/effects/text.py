@@ -1,6 +1,7 @@
+from lights.led_panel_segment import LEDPanelSegment
 from networktables import NetworkTable
 from effects.led_effect import LEDEffect
-from lights.led_device import LEDDevice
+from lights.led_segment import LEDSegment
 from util.color import Color, blend, BLACK, PURPLE, from_int
 from constants import SECONDS_PER_TICK
 import math
@@ -17,9 +18,14 @@ class TextEffect(LEDEffect):
     _x_offset: int
     _loop: bool
     _text_width: int
+    _led_panel_segment: LEDPanelSegment
 
-    def __init__(self, device: LEDDevice, text: str, x: int, y: int, color: Color, scroll_speed: int = 0, loop: bool = True):
-        super().__init__(device, panel_only=True)
+    def __init__(self, segment: LEDSegment, text: str, x: int, y: int, color: Color, scroll_speed: int = 0, loop: bool = True):
+        if segment.get_width() != segment.get_device().get_width():
+            raise Exception("Text doesn't currently support segments with a width smaller than the device width.")
+
+        super().__init__(segment, panel_only=True)
+        self._led_panel_segment = segment
         self._text = text
         self._x = x
         self._y = y
@@ -28,10 +34,12 @@ class TextEffect(LEDEffect):
         self._loop = loop
         self._text_width = 6 * len(self._text) - 1
 
+    def get_segment(self):
+        return self._led_panel_segment
+
     def render_text(self):
-        self.get_device().get_buffer().fill(BLACK.to_hex_int())
-        self.get_device().get_buffer().text(self._text, self._x - self._x_offset, self._y, self._color.to_hex_int())
-        self.get_device().get_buffer().display()
+        self.get_segment().fill(BLACK)
+        self.get_segment().get_buffer().text(self._text, self._x - self._x_offset, self._y, self._color.to_hex_int())
 
     def start(self):
         self._x_offset = 0
@@ -47,12 +55,12 @@ class TextEffect(LEDEffect):
                 if self._loop and self._x_offset > self._x + self._text_width:
                     # set x to 0 to keep looping, since original doesn't matter
                     self._x = 0
-                    self._x_offset = -self.get_device().get_width()
+                    self._x_offset = -self.get_segment().get_width()
                 self.render_text()
         else:
             return
 
-def parse(device: LEDDevice, data):
+def parse(segment: LEDSegment, data):
     x = 0
     y = 0
     text = ""
@@ -84,4 +92,4 @@ def parse(device: LEDDevice, data):
         if isinstance(data['loop'], bool):
             loop = bool(data['loop'])
 
-    return TextEffect(device, text, x, y, color, scroll_speed=scroll_speed, loop=loop)
+    return TextEffect(segment, text, x, y, color, scroll_speed=scroll_speed, loop=loop)

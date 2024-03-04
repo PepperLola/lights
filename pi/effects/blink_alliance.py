@@ -1,6 +1,6 @@
 from networktables import NetworkTable
 from effects.led_effect import LEDEffect
-from lights.led_device import LEDDevice
+from lights.led_segment import LEDSegment
 from util.color import Color, blend, BLACK, RED, BLUE, from_int
 from constants import SECONDS_PER_TICK
 import math
@@ -12,15 +12,15 @@ class BlinkAllianceEffect(LEDEffect):
     _interval: float
     _last_change: int
 
-    def __init__(self, device: LEDDevice, red_color: Color, blue_color: Color, interval: float):
-        super().__init__(device)
+    def __init__(self, segment: LEDSegment, red_color: Color, blue_color: Color, interval: float):
+        super().__init__(segment)
         self._red_color = red_color
         self._blue_color = blue_color
         self._interval = interval
         self._on = False
 
     def start(self):
-        self.get_device().get_neopixel().fill(BLACK.to_tuple())
+        self.get_segment().fill(BLACK)
         self._last_change = current_time_millis()
 
     def update(self, game_info_table: NetworkTable):
@@ -33,11 +33,11 @@ class BlinkAllianceEffect(LEDEffect):
             self._last_change = current_time
             self._on = not self._on
             if self._on:
-                self.get_device().get_neopixel().fill(c.to_tuple())
+                self.get_segment().fill(c)
             else:
-                self.get_device().get_neopixel().fill(BLACK.to_tuple())
+                self.get_segment().fill(BLACK)
 
-def parse(device: LEDDevice, data):
+def parse(segment: LEDSegment, data):
     red_color = RED 
     blue_color = BLUE
     interval = 0.5
@@ -59,4 +59,4 @@ def parse(device: LEDDevice, data):
     if "interval" in data.keys():
         interval = data["interval"]
 
-    return BlinkAllianceEffect(device, red_color, blue_color, interval)
+    return BlinkAllianceEffect(segment, red_color, blue_color, interval)

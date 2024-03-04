@@ -1,14 +1,14 @@
 from networktables import NetworkTable
 from effects.led_effect import LEDEffect
 from util.color import Color, RED, BLUE, from_int
-from lights.led_device import LEDDevice
+from lights.led_segment import LEDSegment
 
 class SolidAllianceEffect(LEDEffect):
     _red_color: Color = RED 
     _blue_color: Color = BLUE
 
-    def __init__(self, device: LEDDevice, red_color: Color, blue_color: Color):
-        super().__init__(device)
+    def __init__(self, segment: LEDSegment, red_color: Color, blue_color: Color):
+        super().__init__(segment)
         self._red_color = red_color
         self._blue_color = blue_color
 
@@ -17,9 +17,9 @@ class SolidAllianceEffect(LEDEffect):
         c = self._red_color
         if alliance == "blue":
             c = self._blue_color
-        self.get_device().get_neopixel().fill(c.to_tuple())
+        self.get_segment().fill(c)
 
-def parse(device: LEDDevice, data):
+def parse(segment: LEDSegment, data):
     red_color = RED 
     blue_color = BLUE
 
@@ -37,4 +37,4 @@ def parse(device: LEDDevice, data):
         else:
             blue_color = Color(c[0], c[1], c[2])
 
-    return SolidAllianceEffect(device, red_color, blue_color)
+    return SolidAllianceEffect(segment, red_color, blue_color)

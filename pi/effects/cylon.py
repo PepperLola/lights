@@ -1,6 +1,6 @@
 from networktables import NetworkTable
 from effects.led_effect import LEDEffect
-from lights.led_device import LEDDevice
+from lights.led_segment import LEDSegment
 from util.color import Color, blend, BLACK, PURPLE, RED, from_int
 from constants import SECONDS_PER_TICK
 import math
@@ -14,8 +14,8 @@ class CylonEffect(LEDEffect):
     _dir: int
     _last_update: int
 
-    def __init__(self, device: LEDDevice, color: Color, speed: int, dist: int):
-        super().__init__(device)
+    def __init__(self, segment: LEDSegment, color: Color, speed: int, dist: int):
+        super().__init__(segment)
         self._color = color
         self._speed = speed
         self._dist = dist
@@ -29,14 +29,14 @@ class CylonEffect(LEDEffect):
         current_time = current_time_millis()
         if (current_time - self._last_update) / 1000 > 1.0 / self._speed:
             self._last_update = current_time
-            self.get_device().get_neopixel().fill(BLACK.to_tuple())
-            for x in range(max(0, self._center_x - self._dist), min(self.get_device().get_length(), self._center_x + self._dist)):
-                self.get_device().get_neopixel()[x] = blend(self._color, BLACK, (abs(self._center_x - x) / self._dist)).to_tuple()
-            if self._center_x + self._dir >= self.get_device().get_length() or self._center_x + self._dir < 0:
+            self.get_segment().fill(BLACK)
+            for x in range(max(0, self._center_x - self._dist), min(self.get_segment().get_length(), self._center_x + self._dist)):
+                self.get_segment().set_index(x, blend(self._color, BLACK, (abs(self._center_x - x) / self._dist)))
+            if self._center_x + self._dir >= self.get_segment().get_length() or self._center_x + self._dir < 0:
                 self._dir = -self._dir
             self._center_x += self._dir
 
-def parse(device: LEDDevice, data):
+def parse(segment: LEDSegment, data):
     color = RED
     speed = 32
     dist = 8
@@ -54,4 +54,4 @@ def parse(device: LEDDevice, data):
     if "dist" in data.keys() and isinstance(data["dist"], int):
         dist = int(data["dist"])
 
-    return CylonEffect(device, color, speed, dist)
+    return CylonEffect(segment, color, speed, dist)

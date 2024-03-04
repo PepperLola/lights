@@ -1,18 +1,18 @@
 from effects.led_effect import LEDEffect
 from util.color import Color, BLACK, PURPLE, from_int
-from lights.led_device import LEDDevice
+from lights.led_segment import LEDSegment
 
 class SolidEffect(LEDEffect):
     _color: Color = BLACK
 
-    def __init__(self, device: LEDDevice, color: Color):
-        super().__init__(device)
+    def __init__(self, segment: LEDSegment, color: Color):
+        super().__init__(segment)
         self._color = color
 
     def start(self):
-        self.get_device().get_neopixel().fill(self._color.to_tuple())
+        self.get_segment().fill(self._color)
 
-def parse(device: LEDDevice, data):
+def parse(segment: LEDSegment, data):
     color = PURPLE
     if "color" in data.keys():
         c = data["color"]
@@ -21,4 +21,4 @@ def parse(device: LEDDevice, data):
         else:
             color = Color(c[0], c[1], c[2])
 
-    return SolidEffect(device, color)
+    return SolidEffect(segment, color)

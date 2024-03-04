@@ -1,5 +1,5 @@
+from lights.led_segment import LEDSegment
 import sim.sim_neopixel
-from adafruit_pixel_framebuf import PixelFramebuffer
 
 class LEDDevice:
     _name: str = ""
@@ -7,15 +7,19 @@ class LEDDevice:
     _length: int = 0
     _is_panel: bool = False
     _width: int = 1
+    _height: int
     _alternating: bool
-    _buffer: PixelFramebuffer
-    def __init__(self, name, port, length, is_sim = False, is_panel = False, width = 1, alternating = True):
+    _segments: dict[str, LEDSegment]
+
+    def __init__(self, name, port, length, is_sim = False, is_panel = False, width = 1, alternating = True, segments: dict[str, LEDSegment] = {}):
         self._name = name
         self._port = port
         self._length = length
         self._is_panel = is_panel
         self._width = width
+        self._height = length // width
         self._alternating = alternating
+        self._segments = segments
 
         if not is_sim:
             try:
@@ -27,8 +31,6 @@ class LEDDevice:
                 self._neopixel = sim.sim_neopixel.NeoPixel(port, length, brightness=1.0, auto_write=False, is_panel=self._is_panel, width=self._width, alternating=alternating)
         else:
             self._neopixel = sim.sim_neopixel.NeoPixel(port, length, brightness=1.0, auto_write=False, is_panel=self._is_panel, width=self._width, alternating=alternating)
-
-        self._buffer = PixelFramebuffer(self.get_neopixel(), width, length // width, alternating=alternating)
 
     def on_register(self):
         pass
@@ -54,5 +56,14 @@ class LEDDevice:
     def get_width(self):
         return self._width
 
-    def get_buffer(self):
-        return self._buffer
+    def get_height(self):
+        return self._height
+
+    def get_alternating(self):
+        return self._alternating
+
+    def get_segments(self):
+        return self._segments
+
+    def add_segment(self, segment: LEDSegment):
+        self._segments[segment.get_name()] = segment

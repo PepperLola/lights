@@ -13,8 +13,8 @@ class NeoPixel(adafruit_pixelbuf.PixelBuf):
         self._is_panel = is_panel
         self._width = width
         self._alternating = alternating
-        tk_width = 1200
-        tk_height = 1200
+        tk_width = 1000
+        tk_height = 1000
         self._square_w = int(tk_width / (n if not self._is_panel else self._width))
         if not self._is_panel:
             tk_height = self._square_w
