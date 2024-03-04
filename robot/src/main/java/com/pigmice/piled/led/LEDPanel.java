@@ -4,6 +4,8 @@ import org.json.JSONObject;
 
 import com.pigmice.piled.PiLED.LEDType;
 
+import java.util.Map;
+
 public class LEDPanel extends LED {
     private int width;
     private int height;
@@ -14,9 +16,10 @@ public class LEDPanel extends LED {
      * @param port port of the LED panel
      * @param width width of the LED panel
      * @param height height of the LED panel
+     * @param segments segments of the LED panel
      */
-    public LEDPanel(String name, int port, int width, int height) {
-        super(name, port, width * height, LEDType.Panel);
+    public LEDPanel(String name, int port, int width, int height, Map<String, LEDSegment> segments) {
+        super(name, port, width * height, LEDType.Panel, segments);
         this.width = width;
         this.height = height;
     }
@@ -65,6 +68,7 @@ public class LEDPanel extends LED {
                 .put("width", this.getWidth())
                 .put("height", this.getHeight())
                 .put("type", this.getLEDType().toString())
+                .put("segments", this.getSegments().values().stream().map(LEDSegment::toString).toArray())
                 .toString();
     }
 }
