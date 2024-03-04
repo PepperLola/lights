@@ -6,7 +6,6 @@ class LEDSegment:
     _length: int
     _height: int
     _width: int = 1
-    _should_reverse: bool = False
 
     def __init__(self, name: str, device, ranges: list[tuple[int, int]]):
         self._name = name
@@ -16,14 +15,9 @@ class LEDSegment:
         for r in ranges:
             if r[1] <= r[0]:
                 raise Exception("Second index must be greater than first.")
-
-        for r in ranges:
             if r[0] < 0 or r[1] < 0:
                 raise Exception("Both indices must be greater than zero.")
-
-        for r in ranges:
             if r[1] > device.get_length():
-                print(r[1], device.get_length())
                 raise Exception("Range must fit on LED strip.")
 
         self._ranges = ranges

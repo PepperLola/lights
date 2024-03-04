@@ -4,11 +4,14 @@ import org.json.JSONObject;
 
 import com.pigmice.piled.PiLED.LEDType;
 
+import java.util.Map;
+
 public abstract class LED {
     private String name;
     private int port;
     private int length;
     private LEDType ledType;
+    private Map<String, LEDSegment> segments;
 
     /**
      * Creates a new LED object
@@ -16,13 +19,22 @@ public abstract class LED {
      * @param port port of the LED
      * @param length length of the LED
      * @param ledType type of the LED
+     * @param segments segments of the LED
      * @see LEDType
+     * @see LEDSegment
      */
-    public LED(String name, int port, int length, LEDType ledType) {
+    public LED(String name, int port, int length, LEDType ledType, Map<String, LEDSegment> segments) {
         this.name = name;
         this.port = port;
         this.length = length;
         this.ledType = ledType;
+
+        for (LEDSegment segment : segments.values()) {
+            if (!segment.fitsOnDevice(this)) {
+                throw new IllegalArgumentException(String.format("Segment \"%s\" does not fit on device", segment.getName()));
+            }
+        }
+        this.segments = segments;
     }
 
     /**
@@ -92,6 +104,38 @@ public abstract class LED {
     }
 
     /**
+     * Get the segments of the LED
+     * @return segments of the LED
+     */
+    public Map<String, LEDSegment> getSegments() {
+        return segments;
+    }
+
+    /**
+     * Set the segments of the LED
+     * @param segments segments of the LED
+     */
+    public void setSegments(Map<String, LEDSegment> segments) {
+        for (LEDSegment segment : segments.values()) {
+            if (!segment.fitsOnDevice(this)) {
+                throw new IllegalArgumentException(String.format("Segment \"%s\" does not fit on device", segment.getName()));
+            }
+        }
+        this.segments = segments;
+    }
+
+    /**
+     * Add a segment to the LED
+     * @param segment segment to add
+     */
+    public void addSegment(LEDSegment segment) {
+        if (!segment.fitsOnDevice(this)) {
+            throw new IllegalArgumentException("Segment does not fit on device");
+        }
+        segments.put(segment.getName(), segment);
+    }
+
+    /**
      * Get the JSON representation of the LED
      * @return JSON representation of the LED
      */
@@ -102,6 +146,7 @@ public abstract class LED {
                 .put("port", this.getPort())
                 .put("length", this.getLength())
                 .put("type", this.getLEDType().toString())
+                .put("segments", this.getSegments().values().stream().map(LEDSegment::toString).toArray())
                 .toString();
     }
 }
