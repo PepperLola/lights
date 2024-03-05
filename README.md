@@ -31,7 +31,13 @@ To flash the Pi with the disk image, follow these steps:
 5. After flashing, insert the SD card into the Pi. It should now be ready for use
 
 ### Installing the Java API
-*TODO: Publish API, add instructions for publishing API locally using Maven*
+Ensure you have Maven Central listed as a repository, and then add the PiLED library to your `build.gradle` like so:
+```groovy
+dependencies {
+    implementation 'com.pigmice:piled:<VERSION>'
+}
+```
+Make sure you replace `<VERSION>` with your desired [PiLED version](https://central.sonatype.com/artifact/com.pigmice/piled) (e.g. `2024.1.0`). You can find a sample `build.gradle` configuration in the [basic robot code example](https://github.com/PepperLola/lights/tree/main/example/basic/build.gradle#L56).
 
 ### Robot Wiring
 After imaging the Raspberry Pi, follow these steps to connect the Pi to the robot properly:
