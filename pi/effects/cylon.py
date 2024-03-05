@@ -1,3 +1,4 @@
+from lights.led_panel_segment import LEDPanelSegment
 from networktables import NetworkTable
 from effects.led_effect import LEDEffect
 from lights.led_segment import LEDSegment
@@ -13,12 +14,14 @@ class CylonEffect(LEDEffect):
     _dist: int
     _dir: int
     _last_update: int
+    _is_panel: bool
 
     def __init__(self, segment: LEDSegment, color: Color, speed: int, dist: int):
         super().__init__(segment)
         self._color = color
         self._speed = speed
         self._dist = dist
+        self._is_panel = isinstance(segment, LEDPanelSegment)
 
     def start(self):
         self._center_x = 0
@@ -31,8 +34,14 @@ class CylonEffect(LEDEffect):
             self._last_update = current_time
             self.get_segment().fill(BLACK)
             for x in range(max(0, self._center_x - self._dist), min(self.get_segment().get_length(), self._center_x + self._dist)):
-                self.get_segment().set_index(x, blend(self._color, BLACK, (abs(self._center_x - x) / self._dist)))
-            if self._center_x + self._dir >= self.get_segment().get_length() or self._center_x + self._dir < 0:
+                color = blend(self._color, BLACK, (abs(self._center_x - x) / self._dist))
+                if self._is_panel:
+                    # go away error this is unequivocally an LEDPanelSegment
+                    led_panel_segment: LEDPanelSegment = self.get_segment()
+                    led_panel_segment.get_buffer().vline(x, 0, led_panel_segment.get_height(), color.to_hex_int())
+                else:
+                    self.get_segment().set_index(x, color)
+            if self._center_x + self._dir >= (self.get_segment().get_length() if not self._is_panel else self.get_segment().get_width()) or self._center_x + self._dir < 0:
                 self._dir = -self._dir
             self._center_x += self._dir
 

@@ -26,9 +26,29 @@ class WaveEffect(LEDEffect):
             color = self._colors.get_color(i / self._len)
             self.get_segment().set_index(i, color)
 
+    def get_hue(self, i: int) -> float:
+        segment = self.get_segment()
+        if isinstance(segment, LEDPanelSegment):
+            led_panel_segment: LEDPanelSegment = segment
+            w, h = led_panel_segment.get_width(), led_panel_segment.get_height()
+            x, y = i % w, i // h
+            return (self._offset + int(((x + y) / (w + h) * 180)) % 180) / 180
+        else:
+            return ((self._offset + int((i / self._len) * 180)) % 180) / 180
+
+    def get_color(self, i: int):
+        segment = self.get_segment()
+        if isinstance(segment, LEDPanelSegment):
+            led_panel_segment: LEDPanelSegment = segment
+            w, h = led_panel_segment.get_width(), led_panel_segment.get_height()
+            x, y = i % w, i // h
+            return self._colors.get_color((self._offset + ((x + y) / (w + h))) % 1)
+        else:
+            return self._colors.get_color((self._offset + (i % self._wave_length / self._wave_length)) % 1)
+
     def update(self, game_info_table: NetworkTable):
         for i in range(self._len):
-            color = self._colors.get_color((self._offset + (i % self._wave_length / self._wave_length)) % 1)
+            color = self.get_color(i)
             self.get_segment().set_index(i, color)
         self._offset += self._speed * SECONDS_PER_TICK
         self._offset %= 1
