@@ -8,18 +8,21 @@ public class WaveEffect extends Effect {
     private ColorRamp colors;
     private double increment;
     private double speed;
+    private int repeats;
 
     /**
      * Create a new wave effect
      * @param colors color ramp of the wave effect
      * @param increment increment of the wave effect
      * @param speed speed of the wave effect
+     * @param repeats number of waves visible at once
      */
-    public WaveEffect(ColorRamp colors, double increment, double speed) {
+    public WaveEffect(ColorRamp colors, double increment, double speed, int repeats) {
         super("wave");
         this.colors = colors;
         this.increment = increment;
         this.speed = speed;
+        this.repeats = repeats;
     }
 
     /**
@@ -70,6 +73,22 @@ public class WaveEffect extends Effect {
         this.speed = speed;
     }
 
+    /**
+     * Get the number of waves visible at once
+     * @return number of waves visible at once
+     */
+    public int getRepeats() {
+        return repeats;
+    }
+
+    /**
+     * Set the number of waves visible at once
+     * @param repeats number of waves visible at once
+     */
+    public void setRepeats(int repeats) {
+        this.repeats = repeats;
+    }
+
     @Override
     public String toString() {
         return new JSONObject()
@@ -77,6 +96,7 @@ public class WaveEffect extends Effect {
                 .put("colors", this.getColors().toString())
                 .put("speed", this.getSpeed())
                 .put("increment", this.getIncrement())
+                .put("repeats", this.getRepeats())
                 .toString();
     }
 }
