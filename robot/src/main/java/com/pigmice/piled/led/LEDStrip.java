@@ -16,4 +16,14 @@ public class LEDStrip extends LED {
     public LEDStrip(String name, int port, int length, Map<String, LEDSegment> segments) {
         super(name, port, length, LEDType.Strip, segments);
     }
+
+    /**
+     * Creates a new LED strip
+     * @param name name of the LED strip
+     * @param port port of the LED strip
+     * @param length length of the LED strip
+     */
+    public LEDStrip(String name, int port, int length) {
+        this(name, port, length, null);
+    }
 }

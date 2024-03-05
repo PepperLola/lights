@@ -74,8 +74,8 @@ public class RobotContainer {
 
     // these effects should only be used with an LED panel
     effectChooser.addOption("Animation", new AnimationEffect());
-    effectChooser.addOption("Text", new TextEffect("Text", Color.kPurple));
-    effectChooser.addOption("Text Alliance Color", new TextAllianceEffect("Text", Color.kRed, Color.kBlue));
+    effectChooser.addOption("Text", new TextEffect("Text", 0, 0, Color.kPurple));
+    effectChooser.addOption("Text Alliance Color", new TextAllianceEffect("Text", 0, 0, Color.kRed, Color.kBlue));
     effectChooser.setDefaultOption("None", null);
 
     lights = new Lights(effectChooser);

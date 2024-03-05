@@ -2,7 +2,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
 group = 'com.pigmice'
-def pubVersion = "2024.1.0"
+def pubVersion = "2024.1.1"
 
 java {
     withSourcesJar()

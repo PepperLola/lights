@@ -8,13 +8,35 @@ public class FireEffect extends Effect {
     private double height;
     private double flareChance;
     private double flareBrightness;
+    private double centerBias;
 
-    public FireEffect(ColorRamp colors, double height, double flareChance, double flareBrightness) {
+    /**
+     * Create a new fire effect
+     * @param colors color ramp of the fire effect
+     * @param height height of the fire effect (multiplier)
+     * @param flareChance chance for a flare (0.0 - 1.0)
+     * @param flareBrightness brightness of the flare (multiplier)
+     * @param centerBias bias towards the center of the fire (0.0 - 1.0)
+     */
+    public FireEffect(ColorRamp colors, double height, double flareChance, double flareBrightness, double centerBias) {
         super("fire");
         this.colors = colors;
         this.height = height;
         this.flareChance = flareChance;
         this.flareBrightness = flareBrightness;
+        this.centerBias = centerBias;
+    }
+
+    /**
+     * Create a new fire effect
+     * @param name name of the effect
+     * @param colors color ramp of the fire effect
+     * @param height height of the fire effect (multiplier)
+     * @param flareChance chance for a flare (0.0 - 1.0)
+     * @param flareBrightness brightness of the flare (multiplier)
+     */
+    public FireEffect(String name, ColorRamp colors, double height, double flareChance, double flareBrightness) {
+        this(colors, height, flareChance, flareBrightness, 0.0);
     }
 
     /**
@@ -82,6 +104,22 @@ public class FireEffect extends Effect {
     }
 
     /**
+     * Get the center bias of the fire effect
+     * @return the center bias of the fire effect (0.0 - 1.0)
+     */
+    public double getCenterBias() {
+        return centerBias;
+    }
+
+    /**
+     * Set the center bias of the fire effect
+     * @param centerBias the center bias of the fire effect (0.0 - 1.0)
+     */
+    public void setCenterBias(double centerBias) {
+        this.centerBias = centerBias;
+    }
+
+    /**
      * Get the JSON representation of the effect
      * @return JSON representation of the effect
      */
@@ -93,6 +131,7 @@ public class FireEffect extends Effect {
                 .put("height", this.height)
                 .put("flare_chance", this.flareChance)
                 .put("flare_brightness", this.flareBrightness)
+                .put("center_bias", this.centerBias)
                 .toString();
     }
 }

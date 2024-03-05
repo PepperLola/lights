@@ -4,6 +4,7 @@ import org.json.JSONObject;
 
 import com.pigmice.piled.PiLED.LEDType;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public abstract class LED {
@@ -29,12 +30,16 @@ public abstract class LED {
         this.length = length;
         this.ledType = ledType;
 
-        for (LEDSegment segment : segments.values()) {
-            if (!segment.fitsOnDevice(this)) {
-                throw new IllegalArgumentException(String.format("Segment \"%s\" does not fit on device", segment.getName()));
+        if (segments == null) {
+            this.segments = new HashMap<>();
+        } else {
+            for (LEDSegment segment : segments.values()) {
+                if (!segment.fitsOnDevice(this)) {
+                    throw new IllegalArgumentException(String.format("Segment \"%s\" does not fit on device", segment.getName()));
+                }
             }
+            this.segments = segments;
         }
-        this.segments = segments;
     }
 
     /**

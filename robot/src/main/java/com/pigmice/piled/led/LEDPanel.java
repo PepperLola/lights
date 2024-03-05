@@ -25,6 +25,17 @@ public class LEDPanel extends LED {
     }
 
     /**
+     * Creates a new LED panel
+     * @param name name of the LED panel
+     * @param port port of the LED panel
+     * @param width width of the LED panel
+     * @param height height of the LED panel
+     */
+    public LEDPanel(String name, int port, int width, int height) {
+        this(name, port, width, height, null);
+    }
+
+    /**
      * Get the width of the LED panel
      * @return width of the LED panel
      */
