@@ -1,3 +1,5 @@
+from lights.led_panel_segment import LEDPanelSegment
+from lights.led_strip_segment import LEDStripSegment
 from networktables import NetworkTable
 from effects.led_effect import LEDEffect
 from util.color import Color, BLACK, hsv
@@ -19,9 +21,19 @@ class RainbowEffect(LEDEffect):
             color = hsv(hue, 1, 1)
             self.get_segment().set_index(i, color)
 
+    def get_hue(self, i: int) -> float:
+        segment = self.get_segment()
+        if isinstance(segment, LEDPanelSegment):
+            led_panel_segment: LEDPanelSegment = segment
+            w, h = led_panel_segment.get_width(), led_panel_segment.get_height()
+            x, y = i % w, i // h
+            return (self._offset + int(((x + y) / (w + h) * 180)) % 180) / 180
+        else:
+            return ((self._offset + int((i / self._len) * 180)) % 180) / 180
+
     def update(self, game_info_table: NetworkTable):
         for i in range(self._len):
-            hue = ((self._offset + int((i / self._len) * 180)) % 180) / 180
+            hue = self.get_hue(i)
             color = hsv(hue, 1, 1)
             self.get_segment().set_index(i, color)
         self._offset += 180 * self._speed * SECONDS_PER_TICK

@@ -33,6 +33,18 @@ class LEDPanelSegment(LEDSegment):
         self._should_reverse = device.get_alternating() and top_left[0] // self._width % 2 == 1
         self._buffer = PixelFramebuffer(device.get_neopixel(), device.get_width(), device.get_height(), alternating=device.get_alternating(), top=top_left, bottom=bottom_right)
 
+    def get_width(self):
+        return self._width
+
+    def get_height(self):
+        return self._height
+
+    def get_top_left(self):
+        return self._top_left
+
+    def get_bottom_right(self):
+        return self._bottom_right
+
     def get_buffer(self):
         return self._buffer
 
