@@ -25,6 +25,8 @@ class TextEffect(LEDEffect):
             raise Exception("Text doesn't currently support segments with a width smaller than the device width.")
 
         super().__init__(segment, panel_only=True)
+        assert isinstance(segment, LEDPanelSegment)
+
         self._led_panel_segment = segment
         self._text = text
         self._x = x
@@ -37,13 +39,15 @@ class TextEffect(LEDEffect):
     def get_segment(self):
         return self._led_panel_segment
 
-    def render_text(self):
+    def get_color(self, game_info_table: NetworkTable):
+        return self._color
+
+    def render_text(self, color: Color):
         self.get_segment().fill(BLACK)
-        self.get_segment().get_buffer().text(self._text, self._x - self._x_offset, self._y, self._color.to_hex_int())
+        self.get_segment().get_buffer().text(self._text, self._x - self._x_offset, self._y, color.to_hex_int())
 
     def start(self):
         self._x_offset = 0
-        self.render_text()
         self._last_update = current_time_millis()
 
     def update(self, game_info_table: NetworkTable):
@@ -56,7 +60,7 @@ class TextEffect(LEDEffect):
                     # set x to 0 to keep looping, since original doesn't matter
                     self._x = 0
                     self._x_offset = -self.get_segment().get_width()
-                self.render_text()
+                self.render_text(self.get_color(game_info_table))
         else:
             return
 
