@@ -23,10 +23,11 @@ public class EffectTest {
         assertEquals(effectJson.getString("name"), "solid");
         assertEquals(effectJson.getInt("color"), 8388736);
 
-        RainbowEffect rainbowEffect = new RainbowEffect(1);
+        RainbowEffect rainbowEffect = new RainbowEffect(1, 0.01);
         effectJson = new JSONObject(rainbowEffect.toString());
         assertEquals(effectJson.getString("name"), "rainbow");
         assertEquals(effectJson.getInt("speed"), 1);
+        assertEquals(effectJson.getDouble("increment"), 0.01, 0.00001);
 
         Map<String, Object> props = new HashMap<>();
         props.put("step", 1);

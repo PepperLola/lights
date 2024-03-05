@@ -20,29 +20,55 @@ class ColorRamp:
     _colors: list[tuple[Color, float]]
 
     def __init__(self, colors: list[tuple[Color, float]]):
-        self._colors = colors
+        self._colors = sorted(colors, key=lambda c: c[1], reverse=False)
+
+    def binary_search_lower_color(self, t: float, lower=0, upper=-1) -> int:
+        if upper == -1:
+            upper = len(self._colors) - 1
+        if lower >= upper:
+            return -1
+        mid = (upper - lower) // 2 + lower
+        if self._colors[mid][1] == t:
+            return mid
+        elif self._colors[mid][1] <=t <= self._colors[mid+1][1]:
+            return mid
+        elif self._colors[mid][1] < t:
+            return self.binary_search_lower_color(t, mid, upper)
+        else:
+            return self.binary_search_lower_color(t, lower, mid)
 
     def get_color(self, t: float):
         if t <= 0:
-            return sorted(self._colors, key=lambda c: c[1], reverse=False)[0][0]
+            return self._colors[0][0]
         elif t >= 1:
-            return sorted(self._colors, key=lambda c: c[1], reverse=True)[0][0]
-        color_from = None
-        color_to = None
-        from_pos = 0
-        to_pos = 0
-        for ((color1, pos1), (color2, pos2)) in itertools.pairwise(self._colors):
-            if pos1 <= t <= pos2:
-                color_from = color1
-                color_to = color2
-                from_pos = pos1
-                to_pos = pos2
-                break
+            return self._colors[len(self._colors) - 1][0]
 
-        return blend(color_from, color_to, (t - from_pos) / (to_pos - from_pos))
+        lower_color_idx: int = self.binary_search_lower_color(t)
+
+        if lower_color_idx == -1:
+            return self._colors[0][0] # what should this be?
+
+        if lower_color_idx == len(self._colors) - 1:
+            return self._colors[lower_color_idx][0]
+
+        (color_from, pos_from) = self._colors[lower_color_idx]
+        (color_to, pos_to) = self._colors[lower_color_idx+1]
+
+        return blend(color_from, color_to, (t - pos_from) / (pos_to - pos_from))
 
     def get_colors(self) -> list[tuple[Color, float]]:
         return self._colors
+
+def from_color_array(arr: list) -> ColorRamp:
+    cl = []
+    for (color, pos) in arr:
+        print(color)
+        if isinstance(color, tuple) or isinstance(color, list):
+            cl.append((Color(color[0], color[1], color[2]), pos))
+        elif isinstance(color, int):
+            cl.append((from_int(color), pos))
+
+    return ColorRamp(cl)
 
 def from_int(c):
     b = c & 255
@@ -70,4 +96,6 @@ ORANGE = Color(255, 165, 0)
 YELLOW = Color(255, 255, 0)
 GREEN = Color(0, 255, 0)
 BLUE = Color(0, 0, 255)
+INDIGO = Color(75, 0, 130)
+VIOLET = Color(148, 0, 211)
 PURPLE = Color(75, 48, 71)

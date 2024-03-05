@@ -2,23 +2,25 @@ from lights.led_panel_segment import LEDPanelSegment
 from lights.led_strip_segment import LEDStripSegment
 from networktables import NetworkTable
 from effects.led_effect import LEDEffect
-from util.color import Color, BLACK, hsv
+from util.color import GREEN, INDIGO, VIOLET, Color, ColorRamp, blend, BLACK, RED, ORANGE, YELLOW, BLUE, PURPLE, WHITE, from_color_array, from_int
 from lights.led_segment import LEDSegment
 from constants import SECONDS_PER_TICK, TPS
 
-class RainbowEffect(LEDEffect):
+class WaveEffect(LEDEffect):
     _len: int
     _offset: float = 0
-    def __init__(self, segment: LEDSegment, increment: float, speed: float):
+    _colors: ColorRamp
+
+    def __init__(self, segment: LEDSegment, colors: ColorRamp, increment: float, speed: float):
         self._segment = segment
+        self._colors = colors
         self._increment = increment
         self._speed = speed
         self._len = self.get_segment().get_length()
 
     def start(self):
         for i in range(self._len):
-            hue = (int((i / self._len) * 180) % 180 / 180)
-            color = hsv(hue, 1, 1)
+            color = self._colors.get_color(i / self._len)
             self.get_segment().set_index(i, color)
 
     def get_hue(self, i: int) -> float:
@@ -33,15 +35,19 @@ class RainbowEffect(LEDEffect):
 
     def update(self, game_info_table: NetworkTable):
         for i in range(self._len):
-            hue = self.get_hue(i)
-            color = hsv(hue, 1, 1)
+            color = self._colors.get_color((self._offset + i / self._len) % 1)
             self.get_segment().set_index(i, color)
-        self._offset += 180 * self._speed * SECONDS_PER_TICK
-        self._offset %= 180
+        self._offset += self._speed * SECONDS_PER_TICK
+        self._offset %= 1
 
 def parse(segment: LEDSegment, data):
     increment = 0.01
     speed = 0.5
+    colors = ColorRamp([(RED, 0), (ORANGE, 0.14), (YELLOW, 0.29), (GREEN, 0.42), (BLUE, 0.57), (INDIGO, 0.71), (VIOLET, 0.85), (RED, 1)])
+
+    if "colors" in data.keys():
+        c = data["colors"]
+        colors = from_color_array(c)
 
     if "increment" in data.keys():
         increment = data["increment"]
@@ -49,4 +55,4 @@ def parse(segment: LEDSegment, data):
     if "speed" in data.keys():
         speed = data["speed"]
 
-    return RainbowEffect(segment, increment, speed)
+    return WaveEffect(segment, colors, increment, speed)

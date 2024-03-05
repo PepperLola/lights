@@ -3,7 +3,7 @@ from lights.led_panel_segment import LEDPanelSegment
 from networktables import NetworkTable
 from effects.led_effect import LEDEffect
 from lights.led_segment import LEDSegment
-from util.color import Color, ColorRamp, blend, BLACK, RED, ORANGE, YELLOW, BLUE, PURPLE, WHITE, from_int
+from util.color import Color, ColorRamp, blend, BLACK, RED, ORANGE, YELLOW, BLUE, PURPLE, WHITE, from_color_array, from_int
 from constants import SECONDS_PER_TICK
 import math
 import random
@@ -59,14 +59,7 @@ def parse(segment: LEDSegment, data):
 
     if "colors" in data.keys():
         c = data["colors"]
-        cl = []
-        if isinstance(c, list):
-            for (color, pos) in c:
-                if isinstance(color, tuple) or isinstance(color, list):
-                    cl.append((Color(color[0], color[1], color[2]), pos))
-                elif isinstance(color, int):
-                    cl.append((from_int(color), pos))
-        colors = ColorRamp(cl)
+        colors = from_color_array(c)
 
     if "height" in data.keys():
         height = float(data["height"])

@@ -163,18 +163,20 @@ def upload_effect():
             return 'Invalid filename', 400
 
 if __name__ == "__main__":
-    valueChanged(lights_table, "panel", '{"type": "panel", "port": 0, "width": 16, "height": 16, "alternating": true}', True)
+    # valueChanged(lights_table, "panel", '{"type": "panel", "port": 0, "width": 16, "height": 16, "alternating": true}', True)
     # valueChanged(lights_table, "panel", '{"type": "panel", "port": 0, "width": 16, "height": 16, "alternating": true, "segments": [{"name":"segment1","top_left":[0,0],"bottom_right":[8,8]},{"name":"segment2","top_left":[8,0], "bottom_right":[16,8]},{"name":"segment3","top_left":[0,8], "bottom_right":[16,16]}]}', True)
-    # valueChanged(lights_table, "strip", '{"type": "strip", "port": 0, "length": 64 }', True)
+    valueChanged(lights_table, "strip", '{"type": "strip", "port": 0, "length": 64 }', True)
     # valueChanged(lights_table, "strip", '{"type": "strip", "port": 0, "length": 64, "segments": [{"name":"segment1","range": [0,32]},{"name":"segment2","range":[32,64]}]}', True)
-    valueChanged(effects_table, "panel", '{"name": "text_alliance", "text": "test", "scroll_speed": 5, "x": 0, "y": 0}', True)
+    # valueChanged(effects_table, "panel", '{"name": "text_alliance", "text": "test", "scroll_speed": 5, "x": 0, "y": 0}', True)
     # valueChanged(effects_table, "strip", '{"name": "breathe_alliance", "red_color": [ 255, 0, 0 ], "blue_color": [ 0, 0, 255 ], "speed": 0.5}', True)
     # valueChanged(effects_table, "panel", '{"name": "cylon"}', True)
     # valueChanged(effects_table, "segment4", '{"name": "cylon"}', True)
-    # valueChanged(effects_table, "panel", '{"name": "fire", "height": 0.7, "center_bias": 0.7}', True)#, "colors": [[[ 0, 0, 0 ], 0], [[ 255, 255, 0 ], 0.5], [[ 255, 255, 255 ], 1]]}', True)
+    # valueChanged(effects_table, "strip", '{"name": "fire", "height": 0.7, "center_bias": 0.7}', True)#, "colors": [[[ 0, 0, 0 ], 0], [[ 255, 255, 0 ], 0.5], [[ 255, 255, 255 ], 1]]}', True)
     # valueChanged(effects_table, "panel", '{"name": "conway"}', True)
     # valueChanged(effects_table, "segment1", '{"name": "blink"}', True)
     # valueChanged(effects_table, "segment1", '{"name": "morse"}', True)
+    valueChanged(effects_table, "strip", '{"name": "wave", "speed": 0.5}', True)
+    # valueChanged(effects_table, "strip", '{"name": "wave", "speed": 2, "colors": [[[0, 255, 0], 0], [[0, 0, 0], 0.8], [[0, 0, 0], 1]]}', True)
     # valueChanged(effects_table, "segment2", '{"name": "rainbow", "speed": 0.5}', True)
     # valueChanged(effects_table, "segment3", '{"name": "rainbow", "speed": 0.5}', True)
     # valueChanged(effects_table, "segment1", '{"name": "animation"}', True)
@@ -190,9 +192,11 @@ if __name__ == "__main__":
             is_disconnected = False
         elif not is_disconnected:
             # set all devices to red breathing not connected effect
-            for name in led_manager.get_devices():
-                device = led_manager.get_device(name)
-                # led_manager.set_device_effect(device, NotConnectedEffect(device))
+            # TODO uncomment when on robot
+            # for name in led_manager.get_devices():
+            #     device = led_manager.get_device(name)
+            #     for segment in device.get_segments().values():
+            #         led_manager.set_segment_effect(segment, NotConnectedEffect(segment))
             is_disconnected = True
         led_manager.update_effects(game_info_table)
         time.sleep(SECONDS_PER_TICK)

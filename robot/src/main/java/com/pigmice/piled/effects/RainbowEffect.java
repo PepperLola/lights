@@ -4,14 +4,17 @@ import org.json.JSONObject;
 
 public class RainbowEffect extends Effect {
     private double speed;
+    private double increment;
 
     /**
      * Rainbow effect
      * @param speed speed of the rainbow effect
+     * @param increment increment of the rainbow effect
      */
-    public RainbowEffect(double speed) {
+    public RainbowEffect(double speed, double increment) {
         super("rainbow");
         this.speed = speed;
+        this.increment = increment;
     }
 
     /**
@@ -31,6 +34,22 @@ public class RainbowEffect extends Effect {
     }
 
     /**
+     * Get the increment of the rainbow effect
+     * @return increment of the rainbow effect
+     */
+    public double getIncrement() {
+        return increment;
+    }
+
+    /**
+     * Set the increment of the rainbow effect
+     * @param increment increment of the rainbow effect
+     */
+    public void setIncrement(double increment) {
+        this.increment = increment;
+    }
+
+    /**
      * Get the JSON representation of the effect
      * @return JSON representation of the effect
      */
@@ -39,6 +58,7 @@ public class RainbowEffect extends Effect {
         return new JSONObject()
             .put("name", this.getName())
             .put("speed", this.getSpeed())
+            .put("increment", this.getIncrement())
             .toString();
     }
 }
