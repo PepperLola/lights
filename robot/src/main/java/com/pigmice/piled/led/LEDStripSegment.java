@@ -40,10 +40,10 @@ public class LEDStripSegment extends LEDSegment {
     }
 
     @Override
-    public String toString() {
+    public JSONObject toJson() {
         JSONObject obj = new JSONObject();
         obj.put("name", this.getName())
             .put("range", new int[]{this.getRange().getFirst(), this.getRange().getSecond()});
-        return obj.toString();
+        return obj;
     }
 }

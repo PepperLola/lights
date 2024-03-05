@@ -55,12 +55,13 @@ class TextEffect(LEDEffect):
             current_time = current_time_millis()
             if (current_time - self._last_update) / 1000 > 1 / self._scroll_speed:
                 self._last_update = current_time
+                # render up here before offset because removed render in start()
+                self.render_text(self.get_color(game_info_table))
                 self._x_offset += 1
                 if self._loop and self._x_offset > self._x + self._text_width:
                     # set x to 0 to keep looping, since original doesn't matter
                     self._x = 0
                     self._x_offset = -self.get_segment().get_width()
-                self.render_text(self.get_color(game_info_table))
         else:
             return
 

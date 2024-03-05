@@ -1,7 +1,10 @@
 package com.pigmice.piled.led;
 
 import com.pigmice.piled.PiLED.LEDType;
+import edu.wpi.first.math.Pair;
+import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class LEDStrip extends LED {
@@ -25,5 +28,15 @@ public class LEDStrip extends LED {
      */
     public LEDStrip(String name, int port, int length) {
         this(name, port, length, null);
+    }
+
+    @Override
+    protected JSONObject toJson() {
+        return new JSONObject()
+                .put("name", this.getName())
+                .put("port", this.getPort())
+                .put("length", this.getLength())
+                .put("type", this.getLEDType().toString())
+                .put("segments", this.getSegments().values().stream().map(LEDSegment::toJson).toArray());
     }
 }

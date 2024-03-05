@@ -71,16 +71,11 @@ public class MorseEffect extends Effect {
         this.wpm = wpm;
     }
 
-    /**
-     * Get the JSON representation of the effect
-     * @return JSON representation of the effect
-     */
     @Override
-    public String toString() {
+    public JSONObject toJson() {
         return new JSONObject()
                 .put("name", this.getName())
                 .put("color", ColorUtil.toInt(this.getColor()))
-                .put("wpm", this.getWPM())
-                .toString();
+                .put("wpm", this.getWPM());
     }
 }

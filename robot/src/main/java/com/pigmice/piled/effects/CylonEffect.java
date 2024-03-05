@@ -69,17 +69,12 @@ public class CylonEffect extends Effect {
         this.dist = dist;
     }
 
-    /**
-     * Get the JSON representation of the effect
-     * @return JSON representation of the effect
-     */
     @Override
-    public String toString() {
+    public JSONObject toJson() {
         return new JSONObject()
                 .put("name", this.getName())
                 .put("color", ColorUtil.toInt(this.getColor()))
                 .put("speed", this.getSpeed())
-                .put("dist", this.getDistance())
-                .toString();
+                .put("dist", this.getDistance());
     }
 }

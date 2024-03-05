@@ -55,9 +55,9 @@ def valueChanged(table, key, value, isNew):
         data = json.loads(value)
         device = None
         if data["type"].lower() == "strip":
-            device = LEDStrip(name, data["port"], data["length"], False)
+            device = LEDStrip(name, data["port"], data["length"], led_manager, is_sim=False)
         elif data["type"].lower() == "panel":
-            device = LEDPanel(name, data["port"], data["width"], data["height"], True, alternating=data["alternating"])
+            device = LEDPanel(name, data["port"], data["width"], data["height"], led_manager, is_sim=True, alternating=data["alternating"])
         if device == None:
             return
         led_manager.register_device(device)
@@ -81,7 +81,6 @@ def valueChanged(table, key, value, isNew):
             return
         data = json.loads(value)
         segment = led_manager.get_segment(name)
-        print(segment)
         if segment == None:
             return
         effect = led_manager.parse_led_effect(segment, data)
@@ -163,19 +162,21 @@ def upload_effect():
             return 'Invalid filename', 400
 
 if __name__ == "__main__":
-    # valueChanged(lights_table, "panel", '{"type": "panel", "port": 0, "width": 16, "height": 16, "alternating": true}', True)
+    valueChanged(lights_table, "panel", '{"type": "panel", "port": 0, "width": 16, "height": 16, "alternating": true}', True)
     # valueChanged(lights_table, "panel", '{"type": "panel", "port": 0, "width": 16, "height": 16, "alternating": true, "segments": [{"name":"segment1","top_left":[0,0],"bottom_right":[8,8]},{"name":"segment2","top_left":[8,0], "bottom_right":[16,8]},{"name":"segment3","top_left":[0,8], "bottom_right":[16,16]}]}', True)
-    valueChanged(lights_table, "strip", '{"type": "strip", "port": 0, "length": 64 }', True)
+    # valueChanged(lights_table, "strip", '{"type": "strip", "port": 0, "length": 64 }', True)
     # valueChanged(lights_table, "strip", '{"type": "strip", "port": 0, "length": 64, "segments": [{"name":"segment1","range": [0,32]},{"name":"segment2","range":[32,64]}]}', True)
-    # valueChanged(effects_table, "panel", '{"name": "text_alliance", "text": "test", "scroll_speed": 5, "x": 0, "y": 0}', True)
+    # valueChanged(effects_table, "panel", '{"name": "text_alliance", "text": "PIGMICE 2733", "scroll_speed": 5, "x": 0, "y": 0}', True)
     # valueChanged(effects_table, "strip", '{"name": "breathe_alliance", "red_color": [ 255, 0, 0 ], "blue_color": [ 0, 0, 255 ], "speed": 0.5}', True)
     # valueChanged(effects_table, "panel", '{"name": "cylon"}', True)
     # valueChanged(effects_table, "segment4", '{"name": "cylon"}', True)
-    # valueChanged(effects_table, "strip", '{"name": "fire", "height": 0.7, "center_bias": 0.7}', True)#, "colors": [[[ 0, 0, 0 ], 0], [[ 255, 255, 0 ], 0.5], [[ 255, 255, 255 ], 1]]}', True)
+    # valueChanged(effects_table, "panel", '{"name": "fire", "height": 0.7, "center_bias": 0.7}', True)#, "colors": [[[ 0, 0, 0 ], 0], [[ 255, 255, 0 ], 0.5], [[ 255, 255, 255 ], 1]]}', True)
+    valueChanged(effects_table, "panel", '{"name": "cycle", "interval": 5, "effects": [{"name": "rainbow", "speed": 0.5}, {"name": "fire", "height": 0.7, "center_bias": 0.7}, {"name":"text","text":"PIGMICE 2733", "x": 16, "y": 0, "scroll_speed": 30, "loop": false}]}', True)#, "colors": [[[ 0, 0, 0 ], 0], [[ 255, 255, 0 ], 0.5], [[ 255, 255, 255 ], 1]]}', True)
     # valueChanged(effects_table, "panel", '{"name": "conway"}', True)
     # valueChanged(effects_table, "segment1", '{"name": "blink"}', True)
     # valueChanged(effects_table, "segment1", '{"name": "morse"}', True)
-    valueChanged(effects_table, "strip", '{"name": "wave", "speed": 0.5}', True)
+    # valueChanged(effects_table, "strip", '{"name": "cycle", "interval": 5, "effects": [{"name": "cylon", "speed": 50}, {"name": "rainbow", "speed": 1}, {"name":"fire"}]}', True)
+    # valueChanged(effects_table, "strip", '{"name": "wave", "speed": 0.5}', True)
     # valueChanged(effects_table, "strip", '{"name": "wave", "speed": 2, "colors": [[[0, 255, 0], 0], [[0, 0, 0], 0.8], [[0, 0, 0], 1]]}', True)
     # valueChanged(effects_table, "segment2", '{"name": "rainbow", "speed": 0.5}', True)
     # valueChanged(effects_table, "segment3", '{"name": "rainbow", "speed": 0.5}', True)

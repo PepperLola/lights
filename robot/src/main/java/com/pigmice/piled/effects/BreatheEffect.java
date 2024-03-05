@@ -53,16 +53,11 @@ public class BreatheEffect extends Effect {
         this.speed = speed;
     }
 
-    /**
-     * Get the JSON representation of the effect
-     * @return JSON representation of the effect
-     */
     @Override
-    public String toString() {
+    public JSONObject toJson() {
         return new JSONObject()
                 .put("name", this.getName())
                 .put("color", ColorUtil.toInt(this.getColor()))
-                .put("speed", this.getSpeed())
-                .toString();
+                .put("speed", this.getSpeed());
     }
 }

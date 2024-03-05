@@ -141,17 +141,17 @@ public abstract class LED {
     }
 
     /**
+     * Get the JSONObject representing the effect
+     * @return JSONObject representing the effect
+     */
+    protected abstract JSONObject toJson();
+
+    /**
      * Get the JSON representation of the LED
      * @return JSON representation of the LED
      */
     @Override
     public String toString() {
-        return new JSONObject()
-                .put("name", this.getName())
-                .put("port", this.getPort())
-                .put("length", this.getLength())
-                .put("type", this.getLEDType().toString())
-                .put("segments", this.getSegments().values().stream().map(LEDSegment::toString).toArray())
-                .toString();
+        return this.toJson().toString();
     }
 }

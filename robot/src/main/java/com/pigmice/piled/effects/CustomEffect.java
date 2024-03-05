@@ -47,15 +47,11 @@ public class CustomEffect extends Effect {
         this.props.put(key, value);
     }
 
-    /**
-     * Gets the JSON representation of the custom effect
-     * @return JSON representation of the custom effect
-     */
     @Override
-    public String toString() {
+    public JSONObject toJson() {
         JSONObject obj = new JSONObject()
                 .put("name", this.getName());
-        this.props.forEach(obj::put);
-        return obj.toString();
+        this.props.forEach(obj::put);;
+        return obj;
     }
 }

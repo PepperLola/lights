@@ -49,16 +49,11 @@ public class AnimationEffect extends Effect {
         return this.speed;
     }
 
-    /**
-     * Get the JSON representation of the effect
-     * @return JSON representation of the effect
-     */
     @Override
-    public String toString() {
+    public JSONObject toJson() {
         return new JSONObject()
                 .put("name", this.getName())
                 .put("path", this.getPath())
-                .put("speed", this.getSpeed())
-                .toString();
+                .put("speed", this.getSpeed());
     }
 }

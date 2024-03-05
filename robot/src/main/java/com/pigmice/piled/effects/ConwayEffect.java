@@ -57,12 +57,8 @@ public class ConwayEffect extends Effect {
         this.initialPattern = initialPattern;
     }
 
-    /**
-     * Get the JSON representation of the effect
-     * @return JSON representation of the effect
-     */
     @Override
-    public String toString() {
+    public JSONObject toJson() {
         JSONObject obj = new JSONObject()
                 .put("name", this.getName())
                 .put("fullness", this.getFullness());
@@ -71,6 +67,6 @@ public class ConwayEffect extends Effect {
             obj.put("initial_pattern", this.getInitialPattern());
         }
 
-        return obj.toString();
+        return obj;
     }
 }

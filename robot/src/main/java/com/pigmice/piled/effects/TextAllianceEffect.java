@@ -186,12 +186,8 @@ public class TextAllianceEffect extends Effect {
         this.loop = loop;
     }
 
-    /**
-     * Get the JSON representation of the effect
-     * @return JSON representation of the effect
-     */
     @Override
-    public String toString() {
+    public JSONObject toJson() {
         return new JSONObject()
                 .put("name", this.getName())
                 .put("text", this.getText())
@@ -200,7 +196,6 @@ public class TextAllianceEffect extends Effect {
                 .put("red_color", ColorUtil.toInt(this.getRedColor()))
                 .put("blue_color", ColorUtil.toInt(this.getBlueColor()))
                 .put("scroll_speed", this.getScrollSpeed())
-                .put("loop", this.shouldLoop())
-                .toString();
+                .put("loop", this.shouldLoop());
     }
 }

@@ -11,10 +11,11 @@ class LEDDevice:
     _alternating: bool
     _segments: dict[str, LEDSegment]
 
-    def __init__(self, name, port, length, is_sim = False, is_panel = False, width = 1, alternating = True, segments: dict[str, LEDSegment] = {}):
+    def __init__(self, name, port, length, led_manager, is_sim = False, is_panel = False, width = 1, alternating = True, segments: dict[str, LEDSegment] = {}):
         self._name = name
         self._port = port
         self._length = length
+        self._led_manager = led_manager
         self._is_panel = is_panel
         self._width = width
         self._height = length // width
@@ -46,6 +47,9 @@ class LEDDevice:
 
     def get_length(self):
         return self._length
+
+    def get_led_manager(self):
+        return self._led_manager
 
     def get_neopixel(self):
         return self._neopixel

@@ -49,16 +49,11 @@ public class RainbowEffect extends Effect {
         this.increment = increment;
     }
 
-    /**
-     * Get the JSON representation of the effect
-     * @return JSON representation of the effect
-     */
     @Override
-    public String toString() {
+    public JSONObject toJson() {
         return new JSONObject()
             .put("name", this.getName())
             .put("speed", this.getSpeed())
-            .put("increment", this.getIncrement())
-            .toString();
+            .put("increment", this.getIncrement());
     }
 }

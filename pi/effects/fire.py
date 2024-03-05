@@ -30,7 +30,7 @@ class FireEffect(LEDEffect):
             led_panel_segment: LEDPanelSegment = segment
             self._buf = [[1.0 for y in range(led_panel_segment.get_height())] for x in range(led_panel_segment.get_width())]
         else:
-            self._buf = [[1.0] for y in range(self._len)]
+            self._buf = [[1.0 for y in range(self._len)]]
 
     def start(self):
         self.get_segment().fill(BLACK)

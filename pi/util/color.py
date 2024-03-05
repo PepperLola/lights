@@ -62,7 +62,6 @@ class ColorRamp:
 def from_color_array(arr: list) -> ColorRamp:
     cl = []
     for (color, pos) in arr:
-        print(color)
         if isinstance(color, tuple) or isinstance(color, list):
             cl.append((Color(color[0], color[1], color[2]), pos))
         elif isinstance(color, int):

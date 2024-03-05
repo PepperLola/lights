@@ -67,19 +67,14 @@ public class LEDPanel extends LED {
         this.height = height;
     }
 
-    /**
-     * Get the JSON representation of the LED panel
-     * @return JSON representation of the LED panel
-     */
     @Override
-    public String toString() {
+    public JSONObject toJson() {
         return new JSONObject()
                 .put("name", this.getName())
                 .put("port", this.getPort())
                 .put("width", this.getWidth())
                 .put("height", this.getHeight())
                 .put("type", this.getLEDType().toString())
-                .put("segments", this.getSegments().values().stream().map(LEDSegment::toString).toArray())
-                .toString();
+                .put("segments", this.getSegments().values().stream().map(LEDSegment::toJson).toArray());
     }
 }

@@ -90,13 +90,12 @@ public class WaveEffect extends Effect {
     }
 
     @Override
-    public String toString() {
+    public JSONObject toJson() {
         return new JSONObject()
                 .put("name", this.getName())
                 .put("colors", this.getColors().toString())
                 .put("speed", this.getSpeed())
                 .put("increment", this.getIncrement())
-                .put("repeats", this.getRepeats())
-                .toString();
+                .put("repeats", this.getRepeats());
     }
 }

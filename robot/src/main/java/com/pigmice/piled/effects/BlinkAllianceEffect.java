@@ -72,17 +72,12 @@ public class BlinkAllianceEffect extends Effect {
         this.interval = interval;
     }
 
-    /**
-     * Get the JSON representation of the effect
-     * @return JSON representation of the effect
-     */
     @Override
-    public String toString() {
+    public JSONObject toJson() {
         return new JSONObject()
                 .put("name", this.getName())
                 .put("red_color", ColorUtil.toInt(this.getRedColor()))
                 .put("blue_color", ColorUtil.toInt(this.getBlueColor()))
-                .put("interval", this.getInterval())
-                .toString();
+                .put("interval", this.getInterval());
     }
 }

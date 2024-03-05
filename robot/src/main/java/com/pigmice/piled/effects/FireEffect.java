@@ -119,19 +119,14 @@ public class FireEffect extends Effect {
         this.centerBias = centerBias;
     }
 
-    /**
-     * Get the JSON representation of the effect
-     * @return JSON representation of the effect
-     */
     @Override
-    public String toString() {
+    public JSONObject toJson() {
         return new JSONObject()
                 .put("name", this.getName())
                 .put("colors", this.colors)
                 .put("height", this.height)
                 .put("flare_chance", this.flareChance)
                 .put("flare_brightness", this.flareBrightness)
-                .put("center_bias", this.centerBias)
-                .toString();
+                .put("center_bias", this.centerBias);
     }
 }

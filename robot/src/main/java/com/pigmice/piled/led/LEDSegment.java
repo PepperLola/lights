@@ -1,5 +1,7 @@
 package com.pigmice.piled.led;
 
+import org.json.JSONObject;
+
 public abstract class LEDSegment {
     private final String name;
     protected int length;
@@ -36,9 +38,17 @@ public abstract class LEDSegment {
     public abstract boolean fitsOnDevice(LED device);
 
     /**
+     * Get the JSONObject representing the effect
+     * @return JSONObject representing the effect
+     */
+    protected abstract JSONObject toJson();
+
+    /**
      * Get the JSON representation of the segment
      * @return JSON representation of the segment
      */
     @Override
-    public abstract String toString();
+    public String toString() {
+        return this.toJson().toString();
+    }
 }

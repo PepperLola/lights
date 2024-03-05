@@ -1,6 +1,8 @@
 package com.pigmice.piled.effects;
 
-public class Effect {
+import org.json.JSONObject;
+
+public abstract class Effect {
     private String name;
 
     /**
@@ -29,11 +31,17 @@ public class Effect {
     }
 
     /**
+     * Get the JSONObject representing the effect
+     * @return JSONObject representing the effect
+     */
+    protected abstract JSONObject toJson();
+
+    /**
      * Get the JSON representation of the effect
      * @return JSON representation of the effect
      */
     @Override
     public String toString() {
-        return "{\"name\": \"" + this.name + "\"}";
+        return this.toJson().toString();
     }
 }

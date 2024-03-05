@@ -72,11 +72,11 @@ public class LEDPanelSegment extends LEDSegment {
     }
 
     @Override
-    public String toString() {
+    public JSONObject toJson() {
         JSONObject obj = new JSONObject();
         obj.put("name", this.getName())
             .put("topLeft", new int[]{topLeft.getFirst(), topLeft.getSecond()})
             .put("bottomRight", new int[]{bottomRight.getFirst(), bottomRight.getSecond()});
-        return obj.toString();
+        return obj;
     }
 }
