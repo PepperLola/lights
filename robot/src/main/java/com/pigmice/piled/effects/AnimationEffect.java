@@ -1,10 +1,11 @@
 package com.pigmice.piled.effects;
 
-import com.pigmice.piled.util.ColorUtil;
-import org.json.JSONObject;
+import com.pigmice.piled.reflection.SerializeField;
 
 public class AnimationEffect extends Effect {
+    @SerializeField
     private String path;
+    @SerializeField
     private int speed;
 
     /**
@@ -47,13 +48,5 @@ public class AnimationEffect extends Effect {
      */
     public int getSpeed() {
         return this.speed;
-    }
-
-    @Override
-    public JSONObject toJson() {
-        return new JSONObject()
-                .put("name", this.getName())
-                .put("path", this.getPath())
-                .put("speed", this.getSpeed());
     }
 }

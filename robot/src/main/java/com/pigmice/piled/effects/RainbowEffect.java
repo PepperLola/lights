@@ -1,9 +1,11 @@
 package com.pigmice.piled.effects;
 
-import org.json.JSONObject;
+import com.pigmice.piled.reflection.SerializeField;
 
 public class RainbowEffect extends Effect {
+    @SerializeField
     private double speed;
+    @SerializeField
     private double increment;
 
     /**
@@ -47,13 +49,5 @@ public class RainbowEffect extends Effect {
      */
     public void setIncrement(double increment) {
         this.increment = increment;
-    }
-
-    @Override
-    public JSONObject toJson() {
-        return new JSONObject()
-            .put("name", this.getName())
-            .put("speed", this.getSpeed())
-            .put("increment", this.getIncrement());
     }
 }

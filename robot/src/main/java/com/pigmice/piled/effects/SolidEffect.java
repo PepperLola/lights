@@ -1,10 +1,10 @@
 package com.pigmice.piled.effects;
 
-import com.pigmice.piled.util.ColorUtil;
+import com.pigmice.piled.reflection.SerializeField;
 import edu.wpi.first.wpilibj.util.Color;
-import org.json.JSONObject;
 
 public class SolidEffect extends Effect {
+    @SerializeField
     private Color color;
 
     /**
@@ -32,12 +32,5 @@ public class SolidEffect extends Effect {
      */
     public void setColor(Color color) {
         this.color = color;
-    }
-
-    @Override
-    public JSONObject toJson() {
-        return new JSONObject()
-            .put("name", this.getName())
-            .put("color", ColorUtil.toInt(this.color));
     }
 }

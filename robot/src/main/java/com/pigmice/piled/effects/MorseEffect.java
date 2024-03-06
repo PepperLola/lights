@@ -1,12 +1,14 @@
 package com.pigmice.piled.effects;
 
-import com.pigmice.piled.util.ColorUtil;
+import com.pigmice.piled.reflection.SerializeField;
 import edu.wpi.first.wpilibj.util.Color;
-import org.json.JSONObject;
 
 public class MorseEffect extends Effect {
+    @SerializeField
     private String text;
+    @SerializeField
     private Color color;
+    @SerializeField
     private int wpm;
 
     /**
@@ -69,13 +71,5 @@ public class MorseEffect extends Effect {
      */
     public void setWPM(int wpm) {
         this.wpm = wpm;
-    }
-
-    @Override
-    public JSONObject toJson() {
-        return new JSONObject()
-                .put("name", this.getName())
-                .put("color", ColorUtil.toInt(this.getColor()))
-                .put("wpm", this.getWPM());
     }
 }

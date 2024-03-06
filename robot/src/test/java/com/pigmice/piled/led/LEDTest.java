@@ -6,12 +6,13 @@ import static org.junit.Assert.assertEquals;
 import org.json.JSONObject;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class LEDTest {
     @Test
     public void toStringTest() {
-        LED ledStrip = new LEDStrip("test", 1, 2, new HashMap<>());
+        LED ledStrip = new LEDStrip("test", 1, 2);
         JSONObject stripJson = new JSONObject(ledStrip.toString());
         assertEquals(stripJson.getString("name"), "test");
         assertEquals(stripJson.getInt("port"), 1);
@@ -19,7 +20,7 @@ public class LEDTest {
         assertEquals(stripJson.getString("type"), "Strip");
         assertEquals(stripJson.getJSONArray("segments").length(), 0);
 
-        LED ledPanel = new LEDPanel("test", 1, 2, 3, new HashMap<>());
+        LED ledPanel = new LEDPanel("test", 1, 2, 3);
         JSONObject panelJson = new JSONObject(ledPanel.toString());
         assertEquals(panelJson.getString("name"), "test");
         assertEquals(panelJson.getInt("port"), 1);

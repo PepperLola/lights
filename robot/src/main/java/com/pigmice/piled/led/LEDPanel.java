@@ -1,13 +1,15 @@
 package com.pigmice.piled.led;
 
-import org.json.JSONObject;
-
 import com.pigmice.piled.PiLED.LEDType;
+import com.pigmice.piled.reflection.SerializeField;
 
+import java.util.List;
 import java.util.Map;
 
 public class LEDPanel extends LED {
+    @SerializeField
     private int width;
+    @SerializeField
     private int height;
 
     /**
@@ -18,7 +20,7 @@ public class LEDPanel extends LED {
      * @param height height of the LED panel
      * @param segments segments of the LED panel
      */
-    public LEDPanel(String name, int port, int width, int height, Map<String, LEDSegment> segments) {
+    public LEDPanel(String name, int port, int width, int height, List<LEDSegment> segments) {
         super(name, port, width * height, LEDType.Panel, segments);
         this.width = width;
         this.height = height;
@@ -65,16 +67,5 @@ public class LEDPanel extends LED {
      */
     public void setHeight(int height) {
         this.height = height;
-    }
-
-    @Override
-    public JSONObject toJson() {
-        return new JSONObject()
-                .put("name", this.getName())
-                .put("port", this.getPort())
-                .put("width", this.getWidth())
-                .put("height", this.getHeight())
-                .put("type", this.getLEDType().toString())
-                .put("segments", this.getSegments().values().stream().map(LEDSegment::toJson).toArray());
     }
 }

@@ -12,11 +12,11 @@ import static org.junit.Assert.assertEquals;
 public class EffectTest {
     @Test
     public void toStringTest() {
-        BreatheEffect breatheEffect = new BreatheEffect(Color.kPurple, 1);
+        BreatheEffect breatheEffect = new BreatheEffect(Color.kPurple, 1d);
         JSONObject effectJson = new JSONObject(breatheEffect.toString());
         assertEquals(effectJson.getString("name"), "breathe");
         assertEquals(effectJson.getInt("color"), 8388736);
-        assertEquals(effectJson.getInt("speed"), 1);
+        assertEquals(effectJson.getInt("speed"), 1d, 0.00001);
 
         SolidEffect solidEffect = new SolidEffect(Color.kPurple);
         effectJson = new JSONObject(solidEffect.toString());

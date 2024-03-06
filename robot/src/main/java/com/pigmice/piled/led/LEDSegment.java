@@ -1,9 +1,13 @@
 package com.pigmice.piled.led;
 
+import com.pigmice.piled.reflection.SerializeField;
+import com.pigmice.piled.reflection.Serializer;
 import org.json.JSONObject;
 
 public abstract class LEDSegment {
+    @SerializeField
     private final String name;
+    @SerializeField
     protected int length;
 
     /**
@@ -41,7 +45,9 @@ public abstract class LEDSegment {
      * Get the JSONObject representing the effect
      * @return JSONObject representing the effect
      */
-    protected abstract JSONObject toJson();
+    public JSONObject toJson() {
+        return Serializer.serialize(this);
+    }
 
     /**
      * Get the JSON representation of the segment

@@ -1,13 +1,16 @@
 package com.pigmice.piled.effects;
 
-import com.pigmice.piled.led.LEDSegment;
+import com.pigmice.piled.reflection.SerializeField;
 import com.pigmice.piled.util.ColorRamp;
-import org.json.JSONObject;
 
 public class WaveEffect extends Effect {
+    @SerializeField
     private ColorRamp colors;
+    @SerializeField
     private double increment;
+    @SerializeField
     private double speed;
+    @SerializeField
     private int repeats;
 
     /**
@@ -87,15 +90,5 @@ public class WaveEffect extends Effect {
      */
     public void setRepeats(int repeats) {
         this.repeats = repeats;
-    }
-
-    @Override
-    public JSONObject toJson() {
-        return new JSONObject()
-                .put("name", this.getName())
-                .put("colors", this.getColors().toString())
-                .put("speed", this.getSpeed())
-                .put("increment", this.getIncrement())
-                .put("repeats", this.getRepeats());
     }
 }

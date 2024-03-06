@@ -1,25 +1,26 @@
 package com.pigmice.piled.effects;
 
-import com.pigmice.piled.util.ColorUtil;
-import org.json.JSONObject;
-
+import com.pigmice.piled.reflection.SerializeField;
 import edu.wpi.first.wpilibj.util.Color;
 
 public class BreatheAllianceEffect extends Effect {
-    private Color red_color;
-    private Color blue_color;
+    @SerializeField
+    private Color redColor;
+    @SerializeField
+    private Color blueColor;
+    @SerializeField
     private double speed;
 
     /**
      * Breathe alliance effect
-     * @param red_color red alliance color of breathing effect
-     * @param blue_color blue alliance color of breathing effect
+     * @param redColor red alliance color of breathing effect
+     * @param blueColor blue alliance color of breathing effect
      * @param speed number of pulses per second
      */
-    public BreatheAllianceEffect(Color red_color, Color blue_color, double speed) {
+    public BreatheAllianceEffect(Color redColor, Color blueColor, double speed) {
         super("breathe_alliance");
-        this.red_color = red_color;
-        this.blue_color = blue_color;
+        this.redColor = redColor;
+        this.blueColor = blueColor;
         this.speed = speed;
     }
 
@@ -29,7 +30,7 @@ public class BreatheAllianceEffect extends Effect {
      * @see Color
      */
     public Color getRedColor() {
-        return this.red_color;
+        return this.redColor;
     }
 
     /**
@@ -38,7 +39,7 @@ public class BreatheAllianceEffect extends Effect {
      * @see Color
      */
     public Color getBlueColor() {
-        return this.blue_color;
+        return this.blueColor;
     }
 
     /**
@@ -46,7 +47,7 @@ public class BreatheAllianceEffect extends Effect {
      * @param color the red alliance color of the breathing effect
      */
     public void setRedColor(Color color) {
-        this.red_color = color;
+        this.redColor = color;
     }
 
     /**
@@ -54,7 +55,7 @@ public class BreatheAllianceEffect extends Effect {
      * @param color the blue alliance color of the breathing effect
      */
     public void setBlueColor(Color color) {
-        this.blue_color = color;
+        this.blueColor = color;
     }
 
     /**
@@ -71,14 +72,5 @@ public class BreatheAllianceEffect extends Effect {
      */
     public void setSpeed(double speed) {
         this.speed = speed;
-    }
-
-    @Override
-    public JSONObject toJson() {
-        return new JSONObject()
-                .put("name", this.getName())
-                .put("red_color", ColorUtil.toInt(this.getRedColor()))
-                .put("blue_color", ColorUtil.toInt(this.getBlueColor()))
-                .put("speed", this.getSpeed());
     }
 }

@@ -1,13 +1,18 @@
 package com.pigmice.piled.effects;
 
+import com.pigmice.piled.reflection.SerializeField;
 import com.pigmice.piled.util.ColorRamp;
-import org.json.JSONObject;
 
 public class FireEffect extends Effect {
+    @SerializeField
     private ColorRamp colors;
+    @SerializeField
     private double height;
+    @SerializeField
     private double flareChance;
+    @SerializeField
     private double flareBrightness;
+    @SerializeField
     private double centerBias;
 
     /**
@@ -117,16 +122,5 @@ public class FireEffect extends Effect {
      */
     public void setCenterBias(double centerBias) {
         this.centerBias = centerBias;
-    }
-
-    @Override
-    public JSONObject toJson() {
-        return new JSONObject()
-                .put("name", this.getName())
-                .put("colors", this.colors)
-                .put("height", this.height)
-                .put("flare_chance", this.flareChance)
-                .put("flare_brightness", this.flareBrightness)
-                .put("center_bias", this.centerBias);
     }
 }

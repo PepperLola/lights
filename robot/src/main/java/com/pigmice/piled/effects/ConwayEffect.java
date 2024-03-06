@@ -1,9 +1,11 @@
 package com.pigmice.piled.effects;
 
-import org.json.JSONObject;
+import com.pigmice.piled.reflection.SerializeField;
 
 public class ConwayEffect extends Effect {
+    @SerializeField
     private double fullness;
+    @SerializeField
     private int[][] initialPattern;
 
     /**
@@ -55,18 +57,5 @@ public class ConwayEffect extends Effect {
      */
     public void setInitialPattern(int[][] initialPattern) {
         this.initialPattern = initialPattern;
-    }
-
-    @Override
-    public JSONObject toJson() {
-        JSONObject obj = new JSONObject()
-                .put("name", this.getName())
-                .put("fullness", this.getFullness());
-
-        if (this.getInitialPattern() != null) {
-            obj.put("initial_pattern", this.getInitialPattern());
-        }
-
-        return obj;
     }
 }

@@ -1,8 +1,11 @@
 package com.pigmice.piled.effects;
 
+import com.pigmice.piled.reflection.SerializeField;
+import com.pigmice.piled.reflection.Serializer;
 import org.json.JSONObject;
 
 public abstract class Effect {
+    @SerializeField
     private String name;
 
     /**
@@ -34,7 +37,9 @@ public abstract class Effect {
      * Get the JSONObject representing the effect
      * @return JSONObject representing the effect
      */
-    protected abstract JSONObject toJson();
+    public JSONObject toJson() {
+        return Serializer.serialize(this);
+    }
 
     /**
      * Get the JSON representation of the effect

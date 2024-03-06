@@ -12,7 +12,7 @@ class ConwayEffect(LEDEffect):
     _color: Color
     _buf: list[list[int]]
 
-    def __init__(self, segment: LEDSegment, color, fullness=0.5, initial_pattern=None):
+    def __init__(self, segment: LEDSegment, color: Color, fullness: float = 0.5, initial_pattern: list[list[int]] | None = None):
         super().__init__(segment, panel_only=True)
         self._color = color
         if initial_pattern is not None:

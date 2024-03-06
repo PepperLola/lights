@@ -1,13 +1,13 @@
 package com.pigmice.piled.effects;
 
-import edu.wpi.first.wpilibj.util.Color;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.pigmice.piled.reflection.SerializeField;
 
 import java.util.List;
 
 public class CycleEffect extends Effect {
+    @SerializeField
     private List<Effect> effects;
+    @SerializeField
     private int interval;
 
     /**
@@ -52,13 +52,5 @@ public class CycleEffect extends Effect {
      */
     public void setInterval(int interval) {
         this.interval = interval;
-    }
-
-    @Override
-    public JSONObject toJson() {
-        return new JSONObject()
-                .put("name", this.getName())
-                .put("interval", this.getInterval())
-                .put("effects", new JSONArray(this.getEffects().stream().map(Effect::toJson).toArray()));
     }
 }

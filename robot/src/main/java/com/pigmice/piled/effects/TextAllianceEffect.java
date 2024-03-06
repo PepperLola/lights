@@ -1,16 +1,22 @@
 package com.pigmice.piled.effects;
 
-import com.pigmice.piled.util.ColorUtil;
+import com.pigmice.piled.reflection.SerializeField;
 import edu.wpi.first.wpilibj.util.Color;
-import org.json.JSONObject;
 
 public class TextAllianceEffect extends Effect {
+    @SerializeField
     private String text;
+    @SerializeField
     private int x;
+    @SerializeField
     private int y;
+    @SerializeField
     private Color redColor;
+    @SerializeField
     private Color blueColor;
+    @SerializeField
     private int scrollSpeed;
+    @SerializeField
     private boolean loop;
 
     /**
@@ -184,18 +190,5 @@ public class TextAllianceEffect extends Effect {
      */
     public void setLoop(boolean loop) {
         this.loop = loop;
-    }
-
-    @Override
-    public JSONObject toJson() {
-        return new JSONObject()
-                .put("name", this.getName())
-                .put("text", this.getText())
-                .put("x", this.getX())
-                .put("y", this.getY())
-                .put("red_color", ColorUtil.toInt(this.getRedColor()))
-                .put("blue_color", ColorUtil.toInt(this.getBlueColor()))
-                .put("scroll_speed", this.getScrollSpeed())
-                .put("loop", this.shouldLoop());
     }
 }

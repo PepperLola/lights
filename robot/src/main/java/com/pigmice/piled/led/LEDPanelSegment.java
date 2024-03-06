@@ -1,12 +1,17 @@
 package com.pigmice.piled.led;
 
+import com.pigmice.piled.reflection.SerializeField;
 import edu.wpi.first.math.Pair;
 import org.json.JSONObject;
 
 public class LEDPanelSegment extends LEDSegment {
+    @SerializeField
     private final int width;
+    @SerializeField
     private final int height;
+    @SerializeField
     private final Pair<Integer, Integer> topLeft;
+    @SerializeField
     private final Pair<Integer, Integer> bottomRight;
 
     /**

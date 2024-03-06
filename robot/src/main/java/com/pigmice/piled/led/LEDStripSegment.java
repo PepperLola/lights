@@ -1,9 +1,11 @@
 package com.pigmice.piled.led;
 
+import com.pigmice.piled.reflection.SerializeField;
 import edu.wpi.first.math.Pair;
 import org.json.JSONObject;
 
 public class LEDStripSegment extends LEDSegment {
+    @SerializeField
     private final Pair<Integer, Integer> range;
 
     /**

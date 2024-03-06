@@ -1,12 +1,12 @@
 package com.pigmice.piled.effects;
 
-import com.pigmice.piled.util.ColorUtil;
-import org.json.JSONObject;
-
+import com.pigmice.piled.reflection.SerializeField;
 import edu.wpi.first.wpilibj.util.Color;
 
 public class BreatheEffect extends Effect {
+    @SerializeField
     private Color color;
+    @SerializeField
     private double speed;
 
     /**
@@ -51,13 +51,5 @@ public class BreatheEffect extends Effect {
      */
     public void setSpeed(double speed) {
         this.speed = speed;
-    }
-
-    @Override
-    public JSONObject toJson() {
-        return new JSONObject()
-                .put("name", this.getName())
-                .put("color", ColorUtil.toInt(this.getColor()))
-                .put("speed", this.getSpeed());
     }
 }

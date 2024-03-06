@@ -1,12 +1,14 @@
 package com.pigmice.piled.effects;
 
-import com.pigmice.piled.util.ColorUtil;
+import com.pigmice.piled.reflection.SerializeField;
 import edu.wpi.first.wpilibj.util.Color;
-import org.json.JSONObject;
 
 public class CylonEffect extends Effect {
+    @SerializeField
     private Color color;
+    @SerializeField
     private int speed;
+    @SerializeField
     private int dist;
 
     /**
@@ -67,14 +69,5 @@ public class CylonEffect extends Effect {
      */
     public void setDistance(int dist) {
         this.dist = dist;
-    }
-
-    @Override
-    public JSONObject toJson() {
-        return new JSONObject()
-                .put("name", this.getName())
-                .put("color", ColorUtil.toInt(this.getColor()))
-                .put("speed", this.getSpeed())
-                .put("dist", this.getDistance());
     }
 }

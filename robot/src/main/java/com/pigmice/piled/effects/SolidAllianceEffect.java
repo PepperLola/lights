@@ -1,22 +1,23 @@
 package com.pigmice.piled.effects;
 
-import com.pigmice.piled.util.ColorUtil;
+import com.pigmice.piled.reflection.SerializeField;
 import edu.wpi.first.wpilibj.util.Color;
-import org.json.JSONObject;
 
 public class SolidAllianceEffect extends Effect {
-    private Color red_color;
-    private Color blue_color;
+    @SerializeField
+    private Color redColor;
+    @SerializeField
+    private Color blueColor;
 
     /**
      * Solid alliance effect
-     * @param red_color red alliance color of solid effect
-     * @param blue_color blue alliance color of solid effect
+     * @param redColor red alliance color of solid effect
+     * @param blueColor blue alliance color of solid effect
      */
-    public SolidAllianceEffect(Color red_color, Color blue_color) {
+    public SolidAllianceEffect(Color redColor, Color blueColor) {
         super("solid_alliance");
-        this.red_color = red_color;
-        this.blue_color = blue_color;
+        this.redColor = redColor;
+        this.blueColor = blueColor;
     }
 
     /**
@@ -25,7 +26,7 @@ public class SolidAllianceEffect extends Effect {
      * @see Color
      */
     public Color getRedColor() {
-        return this.red_color;
+        return this.redColor;
     }
 
     /**
@@ -34,7 +35,7 @@ public class SolidAllianceEffect extends Effect {
      * @see Color
      */
     public Color getBlueColor() {
-        return this.blue_color;
+        return this.blueColor;
     }
 
     /**
@@ -43,7 +44,7 @@ public class SolidAllianceEffect extends Effect {
      * @see Color
      */
     public void setRedColor(Color color) {
-        this.red_color = color;
+        this.redColor = color;
     }
 
     /**
@@ -52,14 +53,6 @@ public class SolidAllianceEffect extends Effect {
      * @see Color
      */
     public void setBlueColor(Color color) {
-        this.blue_color = color;
-    }
-
-    @Override
-    public JSONObject toJson() {
-        return new JSONObject()
-            .put("name", this.getName())
-            .put("red_color", ColorUtil.toInt(this.red_color))
-            .put("blue_color", ColorUtil.toInt(this.blue_color));
+        this.blueColor = color;
     }
 }

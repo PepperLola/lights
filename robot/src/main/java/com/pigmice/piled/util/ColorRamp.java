@@ -3,6 +3,7 @@ package com.pigmice.piled.util;
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.wpilibj.util.Color;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,12 +37,7 @@ public class ColorRamp {
         this.colors = colors;
     }
 
-    /**
-     * Get the JSON representation of the ColorRamp
-     * @return JSON representation of the ColorRamp
-     */
-    @Override
-    public String toString() {
+    public JSONArray toJson() {
         JSONArray arr = new JSONArray();
         for (Pair<Color, Double> pair : this.getColors()) {
             Color color = pair.getFirst();
@@ -55,6 +51,15 @@ public class ColorRamp {
             pairArr.put(colorArr).put(pos);
             arr.put(pairArr);
         }
-        return arr.toString();
+        return arr;
+    }
+
+    /**
+     * Get the JSON representation of the ColorRamp
+     * @return JSON representation of the ColorRamp
+     */
+    @Override
+    public String toString() {
+        return this.toJson().toString();
     }
 }

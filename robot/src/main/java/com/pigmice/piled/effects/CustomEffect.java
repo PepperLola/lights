@@ -1,11 +1,12 @@
 package com.pigmice.piled.effects;
 
+import com.pigmice.piled.reflection.SerializeField;
 import org.json.JSONObject;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class CustomEffect extends Effect {
+    @SerializeField
     private Map<String, Object> props;
 
     public CustomEffect(String name, Map<String, Object> props) {

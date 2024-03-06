@@ -1,39 +1,48 @@
 package com.pigmice.piled.led;
 
+import com.pigmice.piled.reflection.SerializeField;
+import com.pigmice.piled.reflection.Serializer;
 import org.json.JSONObject;
 
 import com.pigmice.piled.PiLED.LEDType;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public abstract class LED {
+    @SerializeField
     private String name;
+    @SerializeField
     private int port;
+    @SerializeField
     private int length;
-    private LEDType ledType;
-    private Map<String, LEDSegment> segments;
+    @SerializeField
+    private LEDType type;
+    @SerializeField
+    private List<LEDSegment> segments;
 
     /**
      * Creates a new LED object
      * @param name name of the LED
      * @param port port of the LED
      * @param length length of the LED
-     * @param ledType type of the LED
+     * @param type type of the LED
      * @param segments segments of the LED
      * @see LEDType
      * @see LEDSegment
      */
-    public LED(String name, int port, int length, LEDType ledType, Map<String, LEDSegment> segments) {
+    public LED(String name, int port, int length, LEDType type, List<LEDSegment> segments) {
         this.name = name;
         this.port = port;
         this.length = length;
-        this.ledType = ledType;
+        this.type = type;
 
         if (segments == null) {
-            this.segments = new HashMap<>();
+            this.segments = new ArrayList<>();
         } else {
-            for (LEDSegment segment : segments.values()) {
+            for (LEDSegment segment : segments) {
                 if (!segment.fitsOnDevice(this)) {
                     throw new IllegalArgumentException(String.format("Segment \"%s\" does not fit on device", segment.getName()));
                 }
@@ -96,23 +105,23 @@ public abstract class LED {
      * @see LEDType
      */
     public LEDType getLEDType() {
-        return ledType;
+        return type;
     }
 
     /**
      * Set the type of the LED
-     * @param ledType type of the LED
+     * @param type type of the LED
      * @see LEDType
      */
-    public void setLEDType(LEDType ledType) {
-        this.ledType = ledType;
+    public void setLEDType(LEDType type) {
+        this.type = type;
     }
 
     /**
      * Get the segments of the LED
      * @return segments of the LED
      */
-    public Map<String, LEDSegment> getSegments() {
+    public List<LEDSegment> getSegments() {
         return segments;
     }
 
@@ -120,8 +129,8 @@ public abstract class LED {
      * Set the segments of the LED
      * @param segments segments of the LED
      */
-    public void setSegments(Map<String, LEDSegment> segments) {
-        for (LEDSegment segment : segments.values()) {
+    public void setSegments(List<LEDSegment> segments) {
+        for (LEDSegment segment : segments) {
             if (!segment.fitsOnDevice(this)) {
                 throw new IllegalArgumentException(String.format("Segment \"%s\" does not fit on device", segment.getName()));
             }
@@ -137,14 +146,16 @@ public abstract class LED {
         if (!segment.fitsOnDevice(this)) {
             throw new IllegalArgumentException("Segment does not fit on device");
         }
-        segments.put(segment.getName(), segment);
+        segments.add(segment);
     }
 
     /**
      * Get the JSONObject representing the effect
      * @return JSONObject representing the effect
      */
-    protected abstract JSONObject toJson();
+    protected JSONObject toJson() {
+        return Serializer.serialize(this);
+    }
 
     /**
      * Get the JSON representation of the LED

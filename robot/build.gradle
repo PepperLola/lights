@@ -27,8 +27,8 @@ if (project.hasProperty('releaseMode')) {
     wpilibRepositories.addAllDevelopmentRepositories(project)
 }
 
-sourceCompatibility = JavaVersion.VERSION_11
-targetCompatibility = JavaVersion.VERSION_11
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
 
 dependencies {
     implementation 'edu.wpi.first.ntcore:ntcore-java:2022.4.1-114-g7ad2be1'

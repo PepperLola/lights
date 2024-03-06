@@ -1,11 +1,12 @@
 package com.pigmice.piled.effects;
 
-import com.pigmice.piled.util.ColorUtil;
+import com.pigmice.piled.reflection.SerializeField;
 import edu.wpi.first.wpilibj.util.Color;
-import org.json.JSONObject;
 
 public class BlinkEffect extends Effect {
+    @SerializeField
     private Color color;
+    @SerializeField
     private double interval;
 
     /**
@@ -50,13 +51,5 @@ public class BlinkEffect extends Effect {
      */
     public void setInterval(double interval) {
         this.interval = interval;
-    }
-
-    @Override
-    public JSONObject toJson() {
-        return new JSONObject()
-                .put("name", this.getName())
-                .put("color", ColorUtil.toInt(this.getColor()))
-                .put("interval", this.getInterval());
     }
 }
