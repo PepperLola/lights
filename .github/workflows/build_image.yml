@@ -11,7 +11,8 @@ env:
   KEYBOARD_KEYMAP: us
   KEYBOARD_LAYOUT: English (US)
   TIMEZONE_DEFAULT: America/New_York
-  FIRST_USER_NAME: pi
+  FIRST_USER_NAME: piled
+  FIRST_USER_PASS: pigmice
   ENABLE_SSH: 1
   DISABLE_FIRST_BOOT_USER_RENAME: 1
 
@@ -36,4 +37,4 @@ jobs:
           sudo ./build.sh
       - uses: actions/upload-artifact@v1
         with:
-          path: export-image/*.iso
+          path: export-image/*.img
