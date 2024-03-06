@@ -57,7 +57,7 @@ public class RobotContainer {
     effectChooser.addOption("Solid Purple", new SolidEffect(Color.kPurple));
     effectChooser.addOption("Solid Alliance Color", new SolidAllianceEffect(Color.kRed, Color.kBlue));
     effectChooser.addOption("Breathing Purple", new BreatheEffect(Color.kPurple, 1.0F));
-    effectChooser.addOption("Rainbow", new RainbowEffect(1F));
+    effectChooser.addOption("Rainbow", new RainbowEffect(1F, 0.01F));
     effectChooser.addOption("Breathing Alliance Color", new BreatheAllianceEffect(Color.kRed, Color.kBlue, 1.0F));
     effectChooser.addOption("Fire", new FireEffect(
             new ColorRamp(List.of(
@@ -67,9 +67,10 @@ public class RobotContainer {
                     new Pair<>(Color.kYellow, 0.6d),
                     new Pair<>(Color.kBlack, 1.0d)
             )),
-            3,
-            0.65,
-            0.25
+            3d,
+            0.65d,
+            0.25d,
+            0d
     ));
 
     // these effects should only be used with an LED panel

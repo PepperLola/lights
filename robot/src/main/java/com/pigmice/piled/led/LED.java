@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import com.pigmice.piled.PiLED.LEDType;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +34,7 @@ public abstract class LED {
      * @see LEDType
      * @see LEDSegment
      */
-    public LED(String name, int port, int length, LEDType type, List<LEDSegment> segments) {
+    public LED(String name, int port, int length, LEDType type, @Nullable List<LEDSegment> segments) {
         this.name = name;
         this.port = port;
         this.length = length;
