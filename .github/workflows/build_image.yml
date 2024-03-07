@@ -39,6 +39,9 @@ jobs:
         if: success()
         run: |
           sudo ./build.sh
+      - name: List files
+        run: |
+          ls **
       - uses: actions/upload-artifact@v4
         with:
           path: deploy/*.zip
