@@ -23,6 +23,10 @@ jobs:
     strategy:
       fail-fast: false
     steps:
+      - name: Remove unnecessary files
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
       - name: Clone lights-pi-gen
         uses: actions/checkout@v2
         with:
