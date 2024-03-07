@@ -41,5 +41,5 @@ jobs:
           sudo ./build.sh
       - uses: actions/upload-artifact@v4
         with:
-          path: export-image/*.img
-          name: piled.img
+          path: export-image/*.zip
+          name: piled.zip
