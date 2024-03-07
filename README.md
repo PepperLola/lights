@@ -1,6 +1,8 @@
 # PiLED
 ### A lights ecosystem for FRC teams
 ---
+![Build Status](https://img.shields.io/github/actions/workflow/status/PepperLola/lights/build_image.yml?logo=github&label=Build)
+![GitHub Stars](https://img.shields.io/github/stars/PepperLola/lights?style=flat&logo=github&label=Stars)
 
 ## About
 
