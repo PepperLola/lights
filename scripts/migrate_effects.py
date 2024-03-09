@@ -96,10 +96,19 @@ def gen_additional_imports(java_params: list[tuple[str, str, str]]) -> str:
     import_dict: dict[str, str] = {
         "LEDSegment": "import com.pigmice.piled.led.LEDSegment;",
         "ColorRamp": "import com.pigmice.piled.util.ColorRamp;",
-        "Color": "import edu.wpi.first.wpilibj.util.Color;"
+        "Color": "import edu.wpi.first.wpilibj.util.Color;",
+        "List": "import java.util.List;",
+        "ArrayList": "import java.util.ArrayList;",
+        "Map": "import java.util.Map;",
+        "HashMap": "import java.util.HashMap;",
+        "TreeMap": "import java.util.TreeMap;"
     }
-    imports = set(map(lambda param: import_dict[param[1]] + "\n" if param[1] in import_dict.keys() else "", java_params))
-    return "".join(imports)
+    imports = set()
+    for ( key, value ) in import_dict.items():
+        for param in java_params:
+            if key in param[1]:
+                imports.add(value)
+    return "\n".join(imports)
 
 def gen_class_name(fname: str) -> str:
     fname = python_to_java_name(fname)
