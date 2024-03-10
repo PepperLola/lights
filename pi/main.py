@@ -162,12 +162,13 @@ def upload_effect():
             return 'Invalid filename', 400
 
 if __name__ == "__main__":
-    # valueChanged(lights_table, "panel", '{"type": "panel", "port": 0, "width": 16, "height": 16, "alternating": true}', True)
+    valueChanged(lights_table, "panel", '{"type": "panel", "port": 0, "width": 16, "height": 16, "alternating": true}', True)
     # valueChanged(lights_table, "panel", '{"type": "panel", "port": 0, "width": 16, "height": 16, "alternating": true, "segments": [{"name":"segment1","top_left":[0,0],"bottom_right":[8,8]},{"name":"segment2","top_left":[8,0], "bottom_right":[16,8]},{"name":"segment3","top_left":[0,8], "bottom_right":[16,16]}]}', True)
-    valueChanged(lights_table, "strip", '{"type": "strip", "port": 0, "length": 64 }', True)
+    # valueChanged(lights_table, "strip", '{"type": "strip", "port": 0, "length": 64 }', True)
     # valueChanged(lights_table, "strip", '{"type": "strip", "port": 0, "length": 64, "segments": [{"name":"segment1","range": [0,32]},{"name":"segment2","range":[32,64]}]}', True)
     # valueChanged(effects_table, "strip", '{"name": "solid", "color": [[[255, 0, 0], 0], [[0, 255, 0], 1]]}', True)
-    valueChanged(effects_table, "strip", '{"name": "color_cycle_blink", "colors": [[255, 0, 0], [0, 255, 0]], "interval": 1}', True)
+    # valueChanged(effects_table, "strip", '{"name": "color_cycle_blink", "colors": [[255, 0, 0], [0, 255, 0]], "interval": 1}', True)
+    valueChanged(effects_table, "panel", '{"name": "matrix"}', True)
     # valueChanged(effects_table, "panel", '{"name": "text_alliance", "text": "PIGMICE 2733", "scroll_speed": 5, "x": 0, "y": 0}', True)
     # valueChanged(effects_table, "strip", '{"name": "breathe_alliance", "red_color": [ 255, 0, 0 ], "blue_color": [ 0, 0, 255 ], "speed": 0.5}', True)
     # valueChanged(effects_table, "panel", '{"name": "cylon"}', True)
